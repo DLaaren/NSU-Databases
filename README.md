@@ -1,2 +1,2 @@
 # database
-the 3d term
+the 3d course
