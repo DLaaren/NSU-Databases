@@ -2,8 +2,9 @@ plugins {
     id 'java'
 }
 
-group = 'nsu.fit.databases.zookeeper'
+group = 'nsu.fit.databases'
 version = '1.0-SNAPSHOT'
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
@@ -15,6 +16,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot:3.2.3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:3.2.3'
     implementation 'org.springframework.boot:spring-boot-starter-web:3.2.3'
+//    implementation 'org.springframework.boot:spring-boot-starter-security:3.2.3'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.2.3'
+    implementation 'org.postgresql:postgresql:42.7.2'
 }
 
 test {
