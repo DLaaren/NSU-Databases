@@ -9,7 +9,7 @@ enum Role {
     ROLE_ADMIN
 }
 
-@Entity //for hibernate
+@Entity
 @Table
 public class User {
     @Id
