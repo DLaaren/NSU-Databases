@@ -14,27 +14,27 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pass
       POSTGRES_DB: zookeeper
-      PGDATA: /var/lib/postgresql/data/pg_data
+      PGDATA: /var/lib/postgresql/data/pgdata
 
     ports:
-    - "5432:5432"
+      - "5432:5432"
 
-  app:
-    logging:
-      driver: journald
-
-    build: .
-
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/zookeeper
-
-    restart: always
-
-    depends_on:
-      - postgres
-
-    ports:
-      - "8080:8080"
-
-    links:
-      - postgres:postgres
+#  app:
+#    logging:
+#      driver: journald
+#
+#    build: .
+#
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/zookeeper
+#
+#    restart: always
+#
+#    depends_on:
+#      - postgres
+#
+#    ports:
+#      - "8080:8080"
+#
+#    links:
+#      - postgres:postgres

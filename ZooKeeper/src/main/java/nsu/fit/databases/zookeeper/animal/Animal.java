@@ -5,9 +5,9 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "animal")
 public class Animal {
-    @Id @GeneratedValue
-    @Column(name = "animal_id")
-    private long animalId = 0L;
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
+    private long id = 0L;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -44,9 +44,10 @@ public class Animal {
         this.rationId = rationId;
     }
 
+    public Animal() {}
 
-    public long getAnimalId() {
-        return animalId;
+    public long getId() {
+        return id;
     }
 
     public String getName() {
@@ -69,14 +70,42 @@ public class Animal {
         return rationId;
     }
 
-    public boolean isNeedWarmCage() {
+    public boolean getIsNeedWarmCage() {
         return needWarmCage;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSpeciesId(long speciesId) {
+        this.speciesId = speciesId;
+    }
+
+    public void setCageId(long cageId) {
+        this.cageId = cageId;
+    }
+
+    public void setVetCardId(long vetCardId) {
+        this.vetCardId = vetCardId;
+    }
+
+    public void setRationId(long rationId) {
+        this.rationId = rationId;
+    }
+
+    public void setNeedWarmCage(boolean needWarmCage) {
+        this.needWarmCage = needWarmCage;
     }
 
     @Override
     public String toString() {
         return "Animal{" +
-                "animalId=" + animalId +
+                "animalId=" + id +
                 ", name='" + name + '\'' +
                 ", speciesId=" + speciesId +
                 ", cageId=" + cageId +
