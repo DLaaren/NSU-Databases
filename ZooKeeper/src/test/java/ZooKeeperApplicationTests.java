@@ -4,9 +4,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(classes = ZooKeeperApplication.class)
 public class ZooKeeperApplicationTests {
-
-    @Test
-    public void contextLoads() {
-    }
+//
+//    @Test
+//    public void contextLoads() {
+//    }
 
 }

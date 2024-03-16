@@ -19,24 +19,24 @@ services:
     ports:
       - "5432:5432"
 
-#  app:
-#    logging:
-#      driver: journald
-#
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#
-#    environment:
-#      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/zookeeper
-#
-#    restart: always
-#
-#    depends_on:
-#      - postgres
-#
-#    ports:
-#      - "8080:8080"
+  app:
+    logging:
+      driver: journald
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/zookeeper
+
+    restart: always
+
+    depends_on:
+      - postgres
+
+    ports:
+      - "8080:8080"
 #
 #    links:
 #      - postgres:postgres
