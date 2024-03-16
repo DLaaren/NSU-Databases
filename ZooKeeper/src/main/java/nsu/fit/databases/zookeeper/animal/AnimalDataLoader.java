@@ -18,7 +18,8 @@ public class AnimalDataLoader {
         animalRepository.deleteAll();
         animalRepository.saveAll(List.of(
                 new Animal("Jack",0,0,0,0, false),
-                new Animal("Alice", 0,0,1,0,false)
+                new Animal("Alice", 0,0,1,0,false),
+                new Animal("SAM", 0,1,2,0,false)
         ));
     }
 }

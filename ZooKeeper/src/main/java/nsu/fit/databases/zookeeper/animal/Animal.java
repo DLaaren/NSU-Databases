@@ -1,13 +1,14 @@
 package nsu.fit.databases.zookeeper.animal;
 
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name = "animal")
 public class Animal {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
-    private long id = 0L;
+    private long id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -27,6 +28,7 @@ public class Animal {
     @Column(name = "need_warm_cage")
     private boolean needWarmCage;
 
+    @Autowired
     public Animal(String name, long speciesId, long cageId, long vetCardId, long rationId, boolean needWarmCage) {
         this.name = name;
         this.speciesId = speciesId;
@@ -36,6 +38,7 @@ public class Animal {
         this.needWarmCage = needWarmCage;
     }
 
+    @Autowired
     public Animal(String name, long speciesId, long cageId, long vetCardId, long rationId) {
         this.name = name;
         this.speciesId = speciesId;
@@ -44,6 +47,7 @@ public class Animal {
         this.rationId = rationId;
     }
 
+    @Autowired
     public Animal() {}
 
     public long getId() {

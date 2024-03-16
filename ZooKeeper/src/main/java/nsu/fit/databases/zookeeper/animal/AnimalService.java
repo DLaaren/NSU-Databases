@@ -30,14 +30,13 @@ public class AnimalService {
         return animalRepository.save(animal);
     }
 
-    public ResponseEntity<Animal> updateAnimal(Animal animal) {
-        return (!animalRepository.existsById(animal.getId()))
-                ? new ResponseEntity<>(animalRepository.save(animal),
-                HttpStatus.CREATED)
-                : new ResponseEntity<>(animalRepository.save(animal), HttpStatus.OK);
+    public ResponseEntity<Animal> updateAnimal(Long id, Animal animal) {
+        return (animalRepository.existsById(id))
+                ? new ResponseEntity<>(animalRepository.save(animal), HttpStatus.OK)
+                : new ResponseEntity<>(animalRepository.save(animal), HttpStatus.CREATED);
     }
 
-    public void deleteAnimal(Animal animal) {
-        animalRepository.delete(animal);
+    public void deleteAnimalById(Long id) {
+        animalRepository.deleteById(id);
     }
 }

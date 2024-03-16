@@ -18,7 +18,7 @@ public class AnimalController {
         this.animalService = animalService;
     }
 
-    @GetMapping()
+    @GetMapping
     public List<Animal> getAnimals() {
         return animalService.getAnimals();
     }
@@ -28,18 +28,18 @@ public class AnimalController {
         return animalService.getAnimalById(id);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public Animal postAnimal(@RequestBody Animal animal) {
         return animalService.addNewAnimal(animal);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Animal> putAnimal(@RequestBody Animal animal) {
-        return animalService.updateAnimal(animal);
+    public ResponseEntity<Animal> putAnimal(@PathVariable Long id, @RequestBody Animal animal) {
+        return animalService.updateAnimal(id, animal);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAnimal(@RequestBody Animal animal) {
-        animalService.deleteAnimal(animal);
+    public void deleteAnimal(@PathVariable Long id) {
+        animalService.deleteAnimalById(id);
     }
 }

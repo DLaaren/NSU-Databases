@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-alpine
+FROM eclipse-temurin:17-jdk-alpine
 EXPOSE 8080
 
 WORKDIR /app
