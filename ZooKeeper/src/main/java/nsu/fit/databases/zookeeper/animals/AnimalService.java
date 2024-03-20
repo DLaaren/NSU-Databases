@@ -1,4 +1,4 @@
-package nsu.fit.databases.zookeeper.animal;
+package nsu.fit.databases.zookeeper.animals;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
