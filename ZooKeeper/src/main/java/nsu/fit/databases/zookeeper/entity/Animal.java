@@ -1,8 +1,7 @@
-package nsu.fit.databases.zookeeper.animals;
+package nsu.fit.databases.zookeeper.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Data
 @Getter
@@ -13,21 +12,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Entity
 @Table(name = "animal")
 public class Animal {
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private long id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "species_id", nullable = false)
-    private long speciesId;
+//    @Column(name = "species_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId
+    private Species species;
 
     @Column(name = "cage_id", nullable = false)
     private long cageId;
 
-    @Column(name = "vet_card_id", unique = true, nullable = false)
-    private long vetCardId;
+//    @Column(name = "vet_card_id", unique = true, nullable = false)
+    private VetCard vetCard;
 
     @Column(name = "ration_id", nullable = false)
     private long rationId;
