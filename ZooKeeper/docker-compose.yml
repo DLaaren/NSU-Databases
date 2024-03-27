@@ -2,12 +2,9 @@ version: '3.8'
 
 services:
 
-  postgres:
-    logging:
-      driver: journald
-
+  database:
     image: "postgres:16"
-
+    container_name: postgres
     restart: always
 
     environment:
@@ -18,25 +15,32 @@ services:
 
     ports:
       - "5432:5432"
+    networks:
+      - app-network
 
   app:
-    logging:
-      driver: journald
+    container_name: zookeeper
+    restart: always
 
     build:
-      context: .
+      context: ./
       dockerfile: Dockerfile
 
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/zookeeper
 
-    restart: always
-
-    depends_on:
-      - postgres
-
     ports:
       - "8080:8080"
+    networks:
+      - app-network
+    depends_on:
+      - database
 
-    links:
-      - postgres:postgres
+networks:
+  app-network:
+    name: app-network
+    driver: bridge
+
+
+# TODO
+#- add healthcheck

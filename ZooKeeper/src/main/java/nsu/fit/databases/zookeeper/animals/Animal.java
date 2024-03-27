@@ -34,27 +34,4 @@ public class Animal {
 
     @Column(name = "need_warm_cage")
     private boolean needWarmCage;
-
-//    @Autowired
-//    public Animal(String name, long speciesId, long cageId, long vetCardId, long rationId, boolean needWarmCage) {
-//        this.name = name;
-//        this.speciesId = speciesId;
-//        this.cageId = cageId;
-//        this.vetCardId = vetCardId;
-//        this.rationId = rationId;
-//        this.needWarmCage = needWarmCage;
-//    }
-//
-//    @Autowired
-//    public Animal(String name, long speciesId, long cageId, long vetCardId, long rationId) {
-//        this.name = name;
-//        this.speciesId = speciesId;
-//        this.cageId = cageId;
-//        this.vetCardId = vetCardId;
-//        this.rationId = rationId;
-//    }
-
-
-
-
 }
