@@ -8,6 +8,7 @@ services:
     restart: always
 
     environment:
+      # новопточники сказали как-то по другому передавать пароль
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pass
       POSTGRES_DB: zookeeper
@@ -15,32 +16,19 @@ services:
 
     ports:
       - "5432:5432"
-    networks:
-      - app-network
 
-  app:
-    container_name: zookeeper
-    restart: always
-
-    build:
-      context: ./
-      dockerfile: Dockerfile
-
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/zookeeper
-
-    ports:
-      - "8080:8080"
-    networks:
-      - app-network
-    depends_on:
-      - database
-
-networks:
-  app-network:
-    name: app-network
-    driver: bridge
-
-
-# TODO
-#- add healthcheck
+#  app:
+#    container_name: zookeeper
+#    restart: always
+#
+#    build:
+#      context: ./
+#      dockerfile: Dockerfile
+#
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/zookeeper
+#
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - database

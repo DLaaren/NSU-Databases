@@ -14,8 +14,7 @@ import lombok.*;
 public class Animal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name", nullable = false)
@@ -23,13 +22,15 @@ public class Animal {
 
 //    @Column(name = "species_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId
+    @JoinColumn(name = "species_id")
     private Species species;
 
     @Column(name = "cage_id", nullable = false)
     private long cageId;
 
 //    @Column(name = "vet_card_id", unique = true, nullable = false)
+    @OneToOne(mappedBy = "animal", cascade = CascadeType.ALL)
+//    @MapsId
     private VetCard vetCard;
 
     @Column(name = "ration_id", nullable = false)

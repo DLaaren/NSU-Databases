@@ -20,8 +20,7 @@ enum FeedingType {
 @Table(name = "species")
 public class Species {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "species_name", nullable = false)

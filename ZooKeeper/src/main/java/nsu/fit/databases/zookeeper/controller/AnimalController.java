@@ -2,7 +2,7 @@ package nsu.fit.databases.zookeeper.controller;
 
 import lombok.AllArgsConstructor;
 import nsu.fit.databases.zookeeper.entity.Animal;
-import nsu.fit.databases.zookeeper.service.impl.AnimalServiceImpl;
+import nsu.fit.databases.zookeeper.service.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.Optional;
 public class AnimalController {
 
     @Autowired
-    private AnimalServiceImpl animalService;
+    private AnimalService animalService;
 
     @GetMapping
     public ResponseEntity<List<Animal>> getAnimals() {
@@ -59,5 +59,4 @@ public class AnimalController {
         animalService.deleteAnimalById(animalId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }
