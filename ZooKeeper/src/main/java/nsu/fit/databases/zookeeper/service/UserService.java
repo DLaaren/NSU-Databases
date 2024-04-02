@@ -1,7 +1,9 @@
 package nsu.fit.databases.zookeeper.service;
 
 import nsu.fit.databases.zookeeper.entity.User;
+import nsu.fit.databases.zookeeper.exception.ServerException;
 import nsu.fit.databases.zookeeper.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,17 +23,15 @@ public class UserService {
 
     public User getUserByIdOrThrow(Long id) {
         return userRepository.findById(id).orElseThrow(() ->
-                new RuntimeException()
-//                new ServerException(HttpStatus.NOT_FOUND,
-//                        "User with id " + id + " does not exist")
+                new ServerException(HttpStatus.NOT_FOUND,
+                        "User with id " + id + " does not exist")
         );
     }
 
     public void nonExistOrThrow(User user) {
         userRepository.findById(user.getId()).ifPresent(usr -> {
-            throw new RuntimeException();
-//            throw new ServerException(HttpStatus.BAD_REQUEST,
-//                  "User with id " + usr.getId() + " already exists");
+            throw new ServerException(HttpStatus.BAD_REQUEST,
+                  "User with id " + usr.getId() + " already exists");
         });
     }
 

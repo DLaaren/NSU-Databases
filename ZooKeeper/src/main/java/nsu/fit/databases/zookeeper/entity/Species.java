@@ -3,16 +3,8 @@ package nsu.fit.databases.zookeeper.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-enum FeedingType {
-    CARNIVORE,
-    HERBIVORE,
-    OMNIVORE,
-    INSECTIVORE
-}
 
 @Data
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 
@@ -23,9 +15,9 @@ public class Species {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "species_name", nullable = false)
+    @Column(nullable = false)
     private String speciesName;
 
-    @Column(name = "feeding")
     private FeedingType feeding;
+
 }

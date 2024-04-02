@@ -1,5 +1,17 @@
 package nsu.fit.databases.zookeeper.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import nsu.fit.databases.zookeeper.entity.JobTitle;
 
-public record UserDto(Long id, String name, int salary, JobTitle jobTitle, String specialization) {}
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class UserDto{
+    private Long id;
+    private String name;
+    private Integer salary;
+    private JobTitle jobTitle;
+    private String specialization;
+}

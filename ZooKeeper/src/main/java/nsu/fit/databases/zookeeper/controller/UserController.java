@@ -2,9 +2,12 @@ package nsu.fit.databases.zookeeper.controller;
 
 import lombok.AllArgsConstructor;
 import nsu.fit.databases.zookeeper.dto.UserDto;
+import nsu.fit.databases.zookeeper.entity.JobTitle;
 import nsu.fit.databases.zookeeper.entity.User;
 import nsu.fit.databases.zookeeper.service.UserService;
+import org.hibernate.annotations.processing.SQL;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +47,7 @@ public class UserController {
     @ResponseBody
     public UserDto updateUser(@PathVariable("id") Long id,
                            @RequestBody UserDto userDto) {
-        if (!Objects.equals(id, userDto.id()))
+        if (!Objects.equals(id, userDto.getId()))
         {
             // SERVET EXPEFETE
             throw new IllegalArgumentException("IDs don't match");
@@ -63,6 +66,8 @@ public class UserController {
     }
 
     private User convertToEntity(UserDto userDto) {
+        System.out.println("\n\n" +  userDto.toString() + "\n\n");
+        System.out.println("\n\n" + userMapper.map(userDto, User.class).toString() + "\n\n");
         return userMapper.map(userDto, User.class);
     }
 }

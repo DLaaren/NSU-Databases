@@ -17,24 +17,19 @@ public class Animal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "species_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "species_id", nullable = false)
     private Species species;
 
-    @Column(name = "cage_id", nullable = false)
-    private long cageId;
+//    private Cage cage;
 
-//    @Column(name = "vet_card_id", unique = true, nullable = false)
     @OneToOne(mappedBy = "animal", cascade = CascadeType.ALL)
-//    @MapsId
     private VetCard vetCard;
 
-//    @Column(name = "ration_id", nullable = false)
-//    private long rationId;
+//    private Ration ration;
 
-    @Column(name = "need_warm_cage")
     private boolean needWarmCage;
 }

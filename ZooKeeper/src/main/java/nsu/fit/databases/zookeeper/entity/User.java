@@ -3,10 +3,11 @@ package nsu.fit.databases.zookeeper.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity
 // TODO add index by name
-// избавиться от аутовайрэд
 @Table(name = "usr")
 public class User {
 
@@ -14,15 +15,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "salary")
-    private int salary;
+    private Integer salary;
 
-    @Column(name = "jobTitle")
     private JobTitle jobTitle;
 
-    @Column(name = "specialization")
     private String specialization;
 }
