@@ -17,7 +17,6 @@ import java.util.Optional;
 @RequestMapping("/animals")
 public class AnimalController {
 
-    @Autowired
     private AnimalService animalService;
 
     @GetMapping

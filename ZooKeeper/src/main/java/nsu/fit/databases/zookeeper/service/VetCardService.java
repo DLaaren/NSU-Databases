@@ -1,20 +1,41 @@
 package nsu.fit.databases.zookeeper.service;
 
-import nsu.fit.databases.zookeeper.entity.User;
 import nsu.fit.databases.zookeeper.entity.VetCard;
+import nsu.fit.databases.zookeeper.repository.VetCardRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface VetCardService {
+@Service
+public class VetCardService {
 
-    List<VetCard> getAllVetCards();
+    @Autowired
+    private VetCardRepository vetCardRepository;
 
-    Optional<VetCard> getVetCardById(Long vetCardId);
+    public List<VetCard> getAllVetCards() {
+        return vetCardRepository.findAll();
+    }
 
-    VetCard addVetCard(VetCard vetCard);
+    public Optional<VetCard> getVetCardById(Long vetCardId) {
+        return vetCardRepository.findById(vetCardId);
+    }
 
-    Optional<VetCard> updateVetCardById(Long vetCardId, VetCard vetCard);
+    public VetCard addVetCard(VetCard vetCard) {
+        vetCardRepository.save(vetCard);
+        return vetCard;
+    }
 
-    void deleteVetCardById(Long vetCardId);
+    public Optional<VetCard> updateVetCardById(Long vetCardId, VetCard vetCard) {
+        if (!vetCardRepository.findById(vetCardId).isPresent()) {
+            return Optional.empty();
+        }
+        vetCardRepository.save(vetCard);
+        return Optional.of(vetCard);
+    }
+
+    public void deleteVetCardById(Long vetCardId) {
+        vetCardRepository.deleteById(vetCardId);
+    }
 }

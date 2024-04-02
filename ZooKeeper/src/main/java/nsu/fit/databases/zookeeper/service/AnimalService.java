@@ -1,18 +1,42 @@
 package nsu.fit.databases.zookeeper.service;
 
+
 import nsu.fit.databases.zookeeper.entity.Animal;
+import nsu.fit.databases.zookeeper.repository.AnimalRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface AnimalService {
-    List<Animal> getAllAnimals();
+@Service
+public class AnimalService {
 
-    Optional<Animal> getAnimalById(Long animalId);
+    @Autowired
+    private AnimalRepository animalRepository;
 
-    Animal addAnimal(Animal animal);
+    public List<Animal> getAllAnimals() {
+        return animalRepository.findAll();
+    }
 
-    Optional<Animal> updateAnimalById(Long animalId, Animal animal);
+    public Optional<Animal> getAnimalById(Long animalId) {
+        return animalRepository.findById(animalId);
+    }
 
-    void deleteAnimalById(Long animalId);
+    public Animal addAnimal(Animal animal) {
+        animalRepository.save(animal);
+        return animal;
+    }
+
+    public Optional<Animal> updateAnimalById(Long animalId, Animal animal) {
+        if (!animalRepository.findById(animalId).isPresent()) {
+            return Optional.empty();
+        }
+        animalRepository.save(animal);
+        return Optional.of(animal);
+    }
+
+    public void deleteAnimalById(Long animalId) {
+        animalRepository.deleteById(animalId);
+    }
 }

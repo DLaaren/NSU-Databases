@@ -1,19 +1,55 @@
 package nsu.fit.databases.zookeeper.service;
 
 import nsu.fit.databases.zookeeper.entity.User;
+import nsu.fit.databases.zookeeper.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface UserService {
+@Service
+public class UserService {
 
-    List<User> getAllUsers();
+    private UserRepository userRepository;
 
-    Optional<User> getUserById(Long userId);
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-    User addUser(User user);
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
-    Optional<User> updateUserById(Long userId, User user);
+    public User getUserByIdOrThrow(Long id) {
+        return userRepository.findById(id).orElseThrow(() ->
+                new RuntimeException()
+//                new ServerException(HttpStatus.NOT_FOUND,
+//                        "User with id " + id + " does not exist")
+        );
+    }
 
-    void deleteUserById(Long userId);
+    public void nonExistOrThrow(User user) {
+        userRepository.findById(user.getId()).ifPresent(usr -> {
+            throw new RuntimeException();
+//            throw new ServerException(HttpStatus.BAD_REQUEST,
+//                  "User with id " + usr.getId() + " already exists");
+        });
+    }
+
+    public User getUserById(Long id) {
+        return getUserByIdOrThrow(id);
+    }
+
+    public User addUser(User user) {
+        nonExistOrThrow(user);
+        return userRepository.save(user);
+    }
+
+    public User updateUser(Long id, User user) {
+        nonExistOrThrow(user);
+        return userRepository.save(user);
+    }
+
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
 }

@@ -1,62 +1,68 @@
 package nsu.fit.databases.zookeeper.controller;
 
 import lombok.AllArgsConstructor;
+import nsu.fit.databases.zookeeper.dto.UserDto;
 import nsu.fit.databases.zookeeper.entity.User;
 import nsu.fit.databases.zookeeper.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 @AllArgsConstructor
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1/user")
 public class UserController {
 
-    @Autowired
     private UserService userService;
+    private ModelMapper userMapper;
 
-    @GetMapping
-    public ResponseEntity<List<User>> getUsers() {
-        List<User> users = userService.getAllUsers();
-        if (users.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return ResponseEntity.ok(users);
+    @GetMapping("/all")
+    @ResponseBody
+    public List<UserDto> getUsers() {
+        return userService.getAllUsers().stream().map(this::convertToDto).toList();
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<User> getUser(@PathVariable("id") Long userId) {
-        Optional<User> user = userService.getUserById(userId);
-        if (!user.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return ResponseEntity.ok(user.get());
+    @GetMapping("/{id}")
+    @ResponseBody
+    public UserDto getUser(@PathVariable("id") Long id) {
+        return convertToDto(userService.getUserById(id));
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-        User registeredUser = userService.addUser(user);
-        return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public UserDto addUser(@RequestBody UserDto userDto) {
+        return convertToDto(userService.addUser(convertToEntity(userDto)));
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") Long userId,
-                                               @RequestBody User user) {
-        Optional<User> _user = userService.updateUserById(userId, user);
-        if (!_user.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public UserDto updateUser(@PathVariable("id") Long id,
+                           @RequestBody UserDto userDto) {
+        if (!Objects.equals(id, userDto.id()))
+        {
+            // SERVET EXPEFETE
+            throw new IllegalArgumentException("IDs don't match");
         }
-        return ResponseEntity.ok(_user.get());
+        return convertToDto(userService.updateUser(id, convertToEntity(userDto)));
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long userId) {
-        userService.deleteUserById(userId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable("id") Long id) {
+        userService.deleteUserById(id);
+    }
+
+    private UserDto convertToDto(User user) {
+        return userMapper.map(user, UserDto.class);
+    }
+
+    private User convertToEntity(UserDto userDto) {
+        return userMapper.map(userDto, User.class);
     }
 }

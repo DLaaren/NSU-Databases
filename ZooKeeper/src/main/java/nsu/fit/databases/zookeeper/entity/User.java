@@ -3,21 +3,10 @@ package nsu.fit.databases.zookeeper.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-enum JobTitle {
-    ADMINISTRATIVE_WORKER,
-    VETERINARIAN,
-    TRAINER,
-    CLEANER,
-    HANDY_WORKER
-}
-
 @Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-
 @Entity
+// TODO add index by name
+// избавиться от аутовайрэд
 @Table(name = "usr")
 public class User {
 
@@ -36,5 +25,4 @@ public class User {
 
     @Column(name = "specialization")
     private String specialization;
-
 }
