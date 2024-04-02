@@ -2,7 +2,6 @@ package nsu.fit.databases.zookeeper.controller;
 
 import lombok.AllArgsConstructor;
 import nsu.fit.databases.zookeeper.entity.User;
-import nsu.fit.databases.zookeeper.entity.User;
 import nsu.fit.databases.zookeeper.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<User>> getAnimals() {
+    public ResponseEntity<List<User>> getUsers() {
         List<User> users = userService.getAllUsers();
         if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -31,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<User> getAnimal(@PathVariable("id") Long userId) {
+    public ResponseEntity<User> getUser(@PathVariable("id") Long userId) {
         Optional<User> user = userService.getUserById(userId);
         if (!user.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -40,13 +39,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> addAnimal(@RequestBody User user) {
-        User registeredAnimal = userService.addUser(user);
-        return new ResponseEntity<>(registeredAnimal, HttpStatus.CREATED);
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        User registeredUser = userService.addUser(user);
+        return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<User> updateAnimal(@PathVariable("id") Long userId,
+    public ResponseEntity<User> updateUser(@PathVariable("id") Long userId,
                                                @RequestBody User user) {
         Optional<User> _user = userService.updateUserById(userId, user);
         if (!_user.isPresent()) {
@@ -56,7 +55,7 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> deleteAnimal(@PathVariable("id") Long userId) {
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long userId) {
         userService.deleteUserById(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -13,9 +13,9 @@ import lombok.*;
 @Table(name = "vet_card")
 public class VetCard {
 
-//    @Id
+    @Id
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-//    private long id;
+    private long id;
 
 //    @Column(name = "animal_id", nullable = false)
     @OneToOne(fetch = FetchType.LAZY)

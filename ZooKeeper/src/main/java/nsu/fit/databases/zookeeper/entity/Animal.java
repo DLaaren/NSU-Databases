@@ -20,9 +20,8 @@ public class Animal {
     @Column(name = "name", nullable = false)
     private String name;
 
-//    @Column(name = "species_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "species_id")
+//    @JoinColumn(name = "species_id", nullable = false)
     private Species species;
 
     @Column(name = "cage_id", nullable = false)
@@ -33,8 +32,8 @@ public class Animal {
 //    @MapsId
     private VetCard vetCard;
 
-    @Column(name = "ration_id", nullable = false)
-    private long rationId;
+//    @Column(name = "ration_id", nullable = false)
+//    private long rationId;
 
     @Column(name = "need_warm_cage")
     private boolean needWarmCage;

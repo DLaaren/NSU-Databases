@@ -30,32 +30,32 @@ public class VetCardController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<VetCard> getAnimal(@PathVariable("id") Long vetCardId) {
-        Optional<VetCard> animal = vetCardService.getVetCardById(vetCardId);
-        if (!animal.isPresent()) {
+    public ResponseEntity<VetCard> getVetCard(@PathVariable("id") Long vetCardId) {
+        Optional<VetCard> vetCard = vetCardService.getVetCardById(vetCardId);
+        if (!vetCard.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(animal.get());
+        return ResponseEntity.ok(vetCard.get());
     }
 
     @PostMapping
-    public ResponseEntity<VetCard> addAnimal(@RequestBody VetCard animal) {
-        VetCard registeredAnimal = vetCardService.addVetCard(animal);
-        return new ResponseEntity<>(registeredAnimal, HttpStatus.CREATED);
+    public ResponseEntity<VetCard> addVetCard(@RequestBody VetCard vetCard) {
+        VetCard registeredVetCard = vetCardService.addVetCard(vetCard);
+        return new ResponseEntity<>(registeredVetCard, HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<VetCard> updateAnimal(@PathVariable("id") Long vetCardId,
-                                               @RequestBody VetCard animal) {
-        Optional<VetCard> _animal = vetCardService.updateVetCardById(vetCardId, animal);
-        if (!_animal.isPresent()) {
+    public ResponseEntity<VetCard> updateVetCard(@PathVariable("id") Long vetCardId,
+                                               @RequestBody VetCard vetCard) {
+        Optional<VetCard> _vetCard = vetCardService.updateVetCardById(vetCardId, vetCard);
+        if (!_vetCard.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(_animal.get());
+        return ResponseEntity.ok(_vetCard.get());
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> deleteAnimal(@PathVariable("id") Long vetCardId) {
+    public ResponseEntity<HttpStatus> deleteVetCard(@PathVariable("id") Long vetCardId) {
         vetCardService.deleteVetCardById(vetCardId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
