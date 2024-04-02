@@ -1,62 +1,73 @@
 package nsu.fit.databases.zookeeper.controller;
 
 import lombok.AllArgsConstructor;
+import nsu.fit.databases.zookeeper.dto.SpeciesDto;
 import nsu.fit.databases.zookeeper.entity.Species;
+import nsu.fit.databases.zookeeper.entity.Species;
+import nsu.fit.databases.zookeeper.exception.ServerException;
 import nsu.fit.databases.zookeeper.service.SpeciesService;
+import nsu.fit.databases.zookeeper.service.SpeciesService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @AllArgsConstructor
 
 @RestController
-@RequestMapping("/species")
+@RequestMapping("/api/v1/species")
 public class SpeciesController {
 
-    @Autowired
     private SpeciesService speciesService;
+    private ModelMapper speciesMapper;
 
-    @GetMapping
-    public ResponseEntity<List<Species>> getSpecies() {
-        List<Species> species = speciesService.getAllSpecies();
-        if (species.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return ResponseEntity.ok(species);
+    @GetMapping("/all")
+    @ResponseBody
+    public List<SpeciesDto> getSpecies() {
+        return speciesService.getAllSpecies().stream().map(this::convertToDto).toList();
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Species> getSpecies(@PathVariable("id") Long speciesId) {
-        Optional<Species> species = speciesService.getSpeciesById(speciesId);
-        if (!species.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return ResponseEntity.ok(species.get());
+    @GetMapping("/{id}")
+    @ResponseBody
+    public SpeciesDto getSpecies(@PathVariable("id") Long id) {
+        return convertToDto(speciesService.getSpeciesById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Species> addSpecies(@RequestBody Species species) {
-        Species registeredSpecies = speciesService.addSpecies(species);
-        return new ResponseEntity<>(registeredSpecies, HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public SpeciesDto addSpecies(@RequestBody SpeciesDto speciesDto) {
+        return convertToDto(speciesService.addSpecies(convertToEntity(speciesDto)));
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Species> updateSpecies(@PathVariable("id") Long speciesId,
-                                                 @RequestBody Species species) {
-        Optional<Species> _species = speciesService.updateSpeciesById(speciesId, species);
-        if (!_species.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public SpeciesDto updateSpecies(@PathVariable("id") Long id,
+                                  @RequestBody SpeciesDto speciesDto) {
+        if (!Objects.equals(id, speciesDto.getId()))
+        {
+            throw new ServerException(HttpStatus.BAD_REQUEST, "IDs don't match");
         }
-        return ResponseEntity.ok(_species.get());
+        return convertToDto(speciesService.updateSpecies(id, convertToEntity(speciesDto)));
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> deleteSpecies(@PathVariable("id") Long speciesId) {
-        speciesService.deleteSpeciesById(speciesId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteSpecies(@PathVariable("id") Long id) {
+        speciesService.deleteSpeciesById(id);
+    }
+
+    private SpeciesDto convertToDto(Species species) {
+        return speciesMapper.map(species, SpeciesDto.class);
+    }
+
+    private Species convertToEntity(SpeciesDto speciesDto) {
+        return speciesMapper.map(speciesDto, Species.class);
     }
 }

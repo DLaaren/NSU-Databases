@@ -1,41 +1,53 @@
 package nsu.fit.databases.zookeeper.service;
 
+import lombok.AllArgsConstructor;
 import nsu.fit.databases.zookeeper.entity.Species;
+import nsu.fit.databases.zookeeper.exception.ServerException;
 import nsu.fit.databases.zookeeper.repository.SpeciesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
+@AllArgsConstructor
 @Service
 public class SpeciesService {
 
-    @Autowired
     private SpeciesRepository speciesRepository;
 
     public List<Species> getAllSpecies() {
         return speciesRepository.findAll();
     }
 
-    public Optional<Species> getSpeciesById(Long speciesId) {
-        return speciesRepository.findById(speciesId);
+    public Species getSpeciesByIdOrThrow(Long id) {
+        return speciesRepository.findById(id).orElseThrow(() ->
+                new ServerException(HttpStatus.NOT_FOUND,
+                        "Species with id " + id + " does not exist")
+        );
+    }
+
+    public void nonExistOrThrow(Species species) {
+        speciesRepository.findById(species.getId()).ifPresent(usr -> {
+            throw new ServerException(HttpStatus.BAD_REQUEST,
+                    "Species with id " + usr.getId() + " already exists");
+        });
+    }
+
+    public Species getSpeciesById(Long id) {
+        return getSpeciesByIdOrThrow(id);
     }
 
     public Species addSpecies(Species species) {
-        speciesRepository.save(species);
-        return species;
+        nonExistOrThrow(species);
+        return speciesRepository.save(species);
     }
 
-    public Optional<Species> updateSpeciesById(Long speciesId, Species species) {
-        if (!speciesRepository.findById(speciesId).isPresent()) {
-            return Optional.empty();
-        }
-        speciesRepository.save(species);
-        return Optional.of(species);
+    public Species updateSpecies(Long id, Species species) {
+        nonExistOrThrow(species);
+        return speciesRepository.save(species);
     }
 
-    public void deleteSpeciesById(Long speciesId) {
-        speciesRepository.deleteById(speciesId);
+    public void deleteSpeciesById(Long id) {
+        speciesRepository.deleteById(id);
     }
 }

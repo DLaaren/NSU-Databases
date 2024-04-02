@@ -8,7 +8,7 @@ import nsu.fit.databases.zookeeper.entity.JobTitle;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class UserDto{
+public class WorkerDto {
     private Long id;
     private String name;
     private Integer salary;

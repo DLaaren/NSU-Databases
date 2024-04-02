@@ -1,42 +1,54 @@
 package nsu.fit.databases.zookeeper.service;
 
 
+import lombok.AllArgsConstructor;
 import nsu.fit.databases.zookeeper.entity.Animal;
+import nsu.fit.databases.zookeeper.exception.ServerException;
 import nsu.fit.databases.zookeeper.repository.AnimalRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
+@AllArgsConstructor
 @Service
 public class AnimalService {
 
-    @Autowired
     private AnimalRepository animalRepository;
 
     public List<Animal> getAllAnimals() {
         return animalRepository.findAll();
     }
 
-    public Optional<Animal> getAnimalById(Long animalId) {
-        return animalRepository.findById(animalId);
+    public Animal getAnimalByIdOrThrow(Long id) {
+        return animalRepository.findById(id).orElseThrow(() ->
+                new ServerException(HttpStatus.NOT_FOUND,
+                        "Animal with id " + id + " does not exist")
+        );
+    }
+
+    public void nonExistOrThrow(Animal animal) {
+        animalRepository.findById(animal.getId()).ifPresent(usr -> {
+            throw new ServerException(HttpStatus.BAD_REQUEST,
+                    "Animal with id " + usr.getId() + " already exists");
+        });
+    }
+
+    public Animal getAnimalById(Long id) {
+        return getAnimalByIdOrThrow(id);
     }
 
     public Animal addAnimal(Animal animal) {
-        animalRepository.save(animal);
-        return animal;
+        nonExistOrThrow(animal);
+        return animalRepository.save(animal);
     }
 
-    public Optional<Animal> updateAnimalById(Long animalId, Animal animal) {
-        if (!animalRepository.findById(animalId).isPresent()) {
-            return Optional.empty();
-        }
-        animalRepository.save(animal);
-        return Optional.of(animal);
+    public Animal updateAnimal(Long id, Animal animal) {
+        nonExistOrThrow(animal);
+        return animalRepository.save(animal);
     }
 
-    public void deleteAnimalById(Long animalId) {
-        animalRepository.deleteById(animalId);
+    public void deleteAnimalById(Long id) {
+        animalRepository.deleteById(id);
     }
 }

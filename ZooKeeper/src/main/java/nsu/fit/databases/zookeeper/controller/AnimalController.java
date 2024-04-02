@@ -1,61 +1,68 @@
 package nsu.fit.databases.zookeeper.controller;
 
 import lombok.AllArgsConstructor;
+import nsu.fit.databases.zookeeper.dto.AnimalDto;
 import nsu.fit.databases.zookeeper.entity.Animal;
+import nsu.fit.databases.zookeeper.exception.ServerException;
 import nsu.fit.databases.zookeeper.service.AnimalService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 @AllArgsConstructor
 
 @RestController
-@RequestMapping("/animals")
+@RequestMapping("/api/v1/animal")
 public class AnimalController {
 
     private AnimalService animalService;
+    private ModelMapper animalMapper;
 
-    @GetMapping
-    public ResponseEntity<List<Animal>> getAnimals() {
-        List<Animal> animals = animalService.getAllAnimals();
-        if (animals.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return ResponseEntity.ok(animals);
+    @GetMapping("/all")
+    @ResponseBody
+    public List<AnimalDto> getAnimals() {
+        return animalService.getAllAnimals().stream().map(this::convertToDto).toList();
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Animal> getAnimal(@PathVariable("id") Long animalId) {
-        Optional<Animal> animal = animalService.getAnimalById(animalId);
-        if (!animal.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return ResponseEntity.ok(animal.get());
+    @GetMapping("/{id}")
+    @ResponseBody
+    public AnimalDto getAnimal(@PathVariable("id") Long id) {
+        return convertToDto(animalService.getAnimalById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Animal> addAnimal(@RequestBody Animal animal) {
-        Animal registeredAnimal = animalService.addAnimal(animal);
-        return new ResponseEntity<>(registeredAnimal, HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public AnimalDto addAnimal(@RequestBody AnimalDto animalDto) {
+        return convertToDto(animalService.addAnimal(convertToEntity(animalDto)));
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Animal> updateAnimal(@PathVariable("id") Long animalId,
-                                               @RequestBody Animal animal) {
-        Optional<Animal> _animal = animalService.updateAnimalById(animalId, animal);
-        if (!_animal.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public AnimalDto updateAnimal(@PathVariable("id") Long id,
+                                  @RequestBody AnimalDto animalDto) {
+        if (!Objects.equals(id, animalDto.getId()))
+        {
+            throw new ServerException(HttpStatus.BAD_REQUEST, "IDs don't match");
         }
-        return ResponseEntity.ok(_animal.get());
+        return convertToDto(animalService.updateAnimal(id, convertToEntity(animalDto)));
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> deleteAnimal(@PathVariable("id") Long animalId) {
-        animalService.deleteAnimalById(animalId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAnimal(@PathVariable("id") Long id) {
+        animalService.deleteAnimalById(id);
+    }
+
+    private AnimalDto convertToDto(Animal animal) {
+        return animalMapper.map(animal, AnimalDto.class);
+    }
+
+    private Animal convertToEntity(AnimalDto animalDto) {
+        return animalMapper.map(animalDto, Animal.class);
     }
 }

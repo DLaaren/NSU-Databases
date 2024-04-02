@@ -1,62 +1,73 @@
 package nsu.fit.databases.zookeeper.controller;
 
 import lombok.AllArgsConstructor;
+import nsu.fit.databases.zookeeper.dto.VetCardDto;
 import nsu.fit.databases.zookeeper.entity.VetCard;
+import nsu.fit.databases.zookeeper.entity.VetCard;
+import nsu.fit.databases.zookeeper.exception.ServerException;
 import nsu.fit.databases.zookeeper.service.VetCardService;
+import nsu.fit.databases.zookeeper.service.VetCardService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @AllArgsConstructor
 
 @RestController
-@RequestMapping("/vetcards")
+@RequestMapping("/api/v1/vetcard")
 public class VetCardController {
 
-    @Autowired
     private VetCardService vetCardService;
+    private ModelMapper vetCardMapper;
 
-    @GetMapping
-    public ResponseEntity<List<VetCard>> getVetCards() {
-        List<VetCard> vetCards = vetCardService.getAllVetCards();
-        if (vetCards.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return ResponseEntity.ok(vetCards);
+    @GetMapping("/all")
+    @ResponseBody
+    public List<VetCardDto> getVetCards() {
+        return vetCardService.getAllVetCards().stream().map(this::convertToDto).toList();
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<VetCard> getVetCard(@PathVariable("id") Long vetCardId) {
-        Optional<VetCard> vetCard = vetCardService.getVetCardById(vetCardId);
-        if (!vetCard.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return ResponseEntity.ok(vetCard.get());
+    @GetMapping("/{id}")
+    @ResponseBody
+    public VetCardDto getVetCard(@PathVariable("id") Long id) {
+        return convertToDto(vetCardService.getVetCardById(id));
     }
 
     @PostMapping
-    public ResponseEntity<VetCard> addVetCard(@RequestBody VetCard vetCard) {
-        VetCard registeredVetCard = vetCardService.addVetCard(vetCard);
-        return new ResponseEntity<>(registeredVetCard, HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public VetCardDto addVetCard(@RequestBody VetCardDto vetCardDto) {
+        return convertToDto(vetCardService.addVetCard(convertToEntity(vetCardDto)));
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<VetCard> updateVetCard(@PathVariable("id") Long vetCardId,
-                                               @RequestBody VetCard vetCard) {
-        Optional<VetCard> _vetCard = vetCardService.updateVetCardById(vetCardId, vetCard);
-        if (!_vetCard.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public VetCardDto updateVetCard(@PathVariable("id") Long id,
+                                  @RequestBody VetCardDto vetCardDto) {
+        if (!Objects.equals(id, vetCardDto.getId()))
+        {
+            throw new ServerException(HttpStatus.BAD_REQUEST, "IDs don't match");
         }
-        return ResponseEntity.ok(_vetCard.get());
+        return convertToDto(vetCardService.updateVetCard(id, convertToEntity(vetCardDto)));
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> deleteVetCard(@PathVariable("id") Long vetCardId) {
-        vetCardService.deleteVetCardById(vetCardId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteVetCard(@PathVariable("id") Long id) {
+        vetCardService.deleteVetCardById(id);
+    }
+
+    private VetCardDto convertToDto(VetCard vetCard) {
+        return vetCardMapper.map(vetCard, VetCardDto.class);
+    }
+
+    private VetCard convertToEntity(VetCardDto vetCardDto) {
+        return vetCardMapper.map(vetCardDto, VetCard.class);
     }
 }

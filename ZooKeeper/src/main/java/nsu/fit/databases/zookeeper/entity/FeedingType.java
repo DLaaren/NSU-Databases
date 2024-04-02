@@ -1,6 +1,6 @@
 package nsu.fit.databases.zookeeper.entity;
 
-enum FeedingType {
+public enum FeedingType {
     CARNIVORE,
     HERBIVORE,
     OMNIVORE,

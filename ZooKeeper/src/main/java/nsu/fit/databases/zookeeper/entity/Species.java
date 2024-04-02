@@ -18,6 +18,6 @@ public class Species {
     @Column(nullable = false)
     private String speciesName;
 
-    private FeedingType feeding;
+    private FeedingType feedingType;
 
 }

@@ -1,41 +1,53 @@
 package nsu.fit.databases.zookeeper.service;
 
+import lombok.AllArgsConstructor;
 import nsu.fit.databases.zookeeper.entity.VetCard;
+import nsu.fit.databases.zookeeper.exception.ServerException;
 import nsu.fit.databases.zookeeper.repository.VetCardRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
+@AllArgsConstructor
 @Service
 public class VetCardService {
 
-    @Autowired
     private VetCardRepository vetCardRepository;
 
     public List<VetCard> getAllVetCards() {
         return vetCardRepository.findAll();
     }
 
-    public Optional<VetCard> getVetCardById(Long vetCardId) {
-        return vetCardRepository.findById(vetCardId);
+    public VetCard getVetCardByIdOrThrow(Long id) {
+        return vetCardRepository.findById(id).orElseThrow(() ->
+                new ServerException(HttpStatus.NOT_FOUND,
+                        "VetCard with id " + id + " does not exist")
+        );
+    }
+
+    public void nonExistOrThrow(VetCard vetCard) {
+        vetCardRepository.findById(vetCard.getId()).ifPresent(usr -> {
+            throw new ServerException(HttpStatus.BAD_REQUEST,
+                    "VetCard with id " + usr.getId() + " already exists");
+        });
+    }
+
+    public VetCard getVetCardById(Long id) {
+        return getVetCardByIdOrThrow(id);
     }
 
     public VetCard addVetCard(VetCard vetCard) {
-        vetCardRepository.save(vetCard);
-        return vetCard;
+        nonExistOrThrow(vetCard);
+        return vetCardRepository.save(vetCard);
     }
 
-    public Optional<VetCard> updateVetCardById(Long vetCardId, VetCard vetCard) {
-        if (!vetCardRepository.findById(vetCardId).isPresent()) {
-            return Optional.empty();
-        }
-        vetCardRepository.save(vetCard);
-        return Optional.of(vetCard);
+    public VetCard updateVetCard(Long id, VetCard vetCard) {
+        nonExistOrThrow(vetCard);
+        return vetCardRepository.save(vetCard);
     }
 
-    public void deleteVetCardById(Long vetCardId) {
-        vetCardRepository.deleteById(vetCardId);
+    public void deleteVetCardById(Long id) {
+        vetCardRepository.deleteById(id);
     }
 }

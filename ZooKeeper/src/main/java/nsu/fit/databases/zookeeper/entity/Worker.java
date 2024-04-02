@@ -8,8 +8,8 @@ import lombok.*;
 @Data
 @Entity
 // TODO add index by name
-@Table(name = "usr")
-public class User {
+@Table(name = "worker")
+public class Worker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
