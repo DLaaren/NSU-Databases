@@ -17,8 +17,9 @@ public class Worker {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, length = 32)
-    private String name;
+    @Convert(converter = NameAttributeConverter.class)
+    @Column(nullable = false)
+    private Name name;
 
     private Integer salary;
 

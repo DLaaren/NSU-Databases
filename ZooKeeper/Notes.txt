@@ -11,4 +11,7 @@ https://habr.com/ru/articles/542328/
 Без параметров = будет создан FK в таблице с аннотацией
 +  @JoinColumn(name = "user_id") = будет создана доп. таблица связи (join table) с именем <name1>s_<name2>s
 
-Двусторонние отношения
+
+
+JSON
+https://www.baeldung.com/spring-boot-jpa-storing-postgresql-jsonb
