@@ -3,6 +3,8 @@ package nsu.fit.databases.zookeeper.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,18 +19,23 @@ public class VetCard {
     @MapsId
     private Animal animal;
 
+    @Column(nullable = false, columnDefinition = "INT CHECK (age >= 0)")
+    private int age;
+
     @Column(length = 8)
     private String sex;
 
-    private int height;
+    @Column(columnDefinition = "NUMERIC CHECK (height > 0)")
+    private double height;
 
-    private int weight;
+    @Column(columnDefinition = "NUMERIC CHECK (weight > 0)")
+    private double weight;
 
     private boolean needIsolation;
 
     private boolean isPregnant;
 
-    private int gestationTerm;
+    private Date gestationTerm;
 
     // default length is 255
     @Column
