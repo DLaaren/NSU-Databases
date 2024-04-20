@@ -63,6 +63,7 @@ public class AnimalController {
     }
 
     private Animal convertToEntity(AnimalDto animalDto) {
+        System.out.println(animalDto);
         return animalMapper.map(animalDto, Animal.class);
     }
 }

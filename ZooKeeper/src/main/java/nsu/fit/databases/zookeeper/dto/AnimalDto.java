@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class AnimalDto {
     private Long id;
     private String name;
-    private Long species;
-    private Long vetCard;
+    private Long speciesId;
+    private Long vetCardId;
     private boolean needWarmCage;
 }

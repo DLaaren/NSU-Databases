@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import nsu.fit.databases.zookeeper.exception.ServerException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.io.BufferedWriter;

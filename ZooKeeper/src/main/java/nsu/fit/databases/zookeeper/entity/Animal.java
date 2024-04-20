@@ -3,33 +3,36 @@ package nsu.fit.databases.zookeeper.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Data
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 
 @Entity
 @Table(name = "animal")
 public class Animal {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 16)
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "species_id", nullable = false)
+    @Column(nullable = false)
     private Species species;
 
-//    private Cage cage;
-
-    @OneToOne(mappedBy = "animal", cascade = CascadeType.ALL)
+    // двустороннее отношение между сущностями
+    @OneToOne
     private VetCard vetCard;
 
-//    private Ration ration;
+    @ManyToOne
+    @Column(nullable = false)
+    private Cage cage;
 
     private boolean needWarmCage;
+
+    @ManyToMany
+    private List<Trainer> trainers;
 }

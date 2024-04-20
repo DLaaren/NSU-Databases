@@ -2,6 +2,7 @@ package nsu.fit.databases.zookeeper.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import nsu.fit.databases.zookeeper.entity.Enums.FeedingType;
 
 
 @Data
@@ -15,9 +16,8 @@ public class Species {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 32)
     private String speciesName;
 
     private FeedingType feedingType;
-
 }

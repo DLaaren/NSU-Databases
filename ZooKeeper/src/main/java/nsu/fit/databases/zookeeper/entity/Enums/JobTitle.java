@@ -1,4 +1,4 @@
-package nsu.fit.databases.zookeeper.entity;
+package nsu.fit.databases.zookeeper.entity.Enums;
 
 public enum JobTitle {
     ADMINISTRATIVE_WORKER,
