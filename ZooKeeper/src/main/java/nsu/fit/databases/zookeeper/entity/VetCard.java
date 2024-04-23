@@ -16,8 +16,11 @@ public class VetCard {
     @Id
     private long id;
 
-    @OneToOne(mappedBy = "vetCard", cascade = CascadeType.ALL)
+    // animal_id (PK) ------- vet_card_id (PK)(FK) = animal_id
+
+    @OneToOne
     @MapsId
+    @JoinColumn(name = "animal_id", nullable = false)
     private Animal animal;
 
     @Column(nullable = false, columnDefinition = "INT CHECK (age >= 0)")
@@ -34,8 +37,10 @@ public class VetCard {
 
     private boolean needIsolation;
 
+    @Column(columnDefinition = "BOOLEAN CHECK (NOT(is_pregnant = TRUE and sex = 'male'))")
     private boolean isPregnant;
 
+    @Column(columnDefinition = "DATE CHECK (is_pregnant = TRUE)")
     private Date gestationTerm;
 
     // default length is 255
@@ -43,7 +48,4 @@ public class VetCard {
 
     @ManyToMany(mappedBy = "vetCards")
     private List<Vet> vets;
-
-
-    // do we need to add records?
 }

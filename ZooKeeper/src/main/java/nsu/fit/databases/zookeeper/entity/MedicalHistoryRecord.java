@@ -15,6 +15,7 @@ import java.sql.Date;
 @Table(name = "medical_history_record")
 public class MedicalHistoryRecord {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne

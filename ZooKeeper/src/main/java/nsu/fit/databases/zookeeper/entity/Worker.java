@@ -3,6 +3,8 @@ package nsu.fit.databases.zookeeper.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import nsu.fit.databases.zookeeper.entity.Enums.JobTitle;
+import nsu.fit.databases.zookeeper.entity.json.Name;
+import nsu.fit.databases.zookeeper.entity.json.NameAttributeConverter;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,5 +25,6 @@ public class Worker {
 
     private Integer salary;
 
+    @Enumerated(EnumType.STRING)
     private JobTitle jobTitle;
 }

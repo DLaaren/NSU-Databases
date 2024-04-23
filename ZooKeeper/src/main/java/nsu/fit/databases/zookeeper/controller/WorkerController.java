@@ -33,6 +33,7 @@ public class WorkerController {
         return convertToDto(workerService.getWorkerById(id));
     }
 
+    // add adding the worker to its table too
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody

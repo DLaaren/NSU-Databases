@@ -23,14 +23,12 @@ public class Animal {
     @JoinColumn(name = "species_id", nullable = false)
     private Species species;
 
-    // двустороннее отношение между сущностями
-    @OneToOne
-    @JoinColumn(name = "vet_card_id", nullable = false)
+    @OneToOne(mappedBy = "animal", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private VetCard vetCard;
 
     @ManyToOne
     @JoinColumn(name = "cage_id", nullable = false)
-//    @Column(nullable = false)
     private Cage cage;
 
     private boolean needWarmCage;
@@ -38,8 +36,8 @@ public class Animal {
     @ManyToMany
     @JoinTable(
             name = "animal_trainer_relation",
-            joinColumns = @JoinColumn(name = "trainer_id"),
-            inverseJoinColumns = @JoinColumn(name = "animal_id")
+            joinColumns = @JoinColumn(name = "animal_id"),
+            inverseJoinColumns = @JoinColumn(name = "trainer_id")
     )
     private List<Trainer> trainers;
 }

@@ -21,8 +21,8 @@ public class Cleaner extends Worker {
     @ManyToMany
     @JoinTable(
             name = "cleaner_cage_relation",
-            joinColumns = @JoinColumn(name = "cage_id"),
-            inverseJoinColumns = @JoinColumn(name = "cleaner_id")
+            joinColumns = @JoinColumn(name = "cleaner_id"),
+            inverseJoinColumns = @JoinColumn(name = "cage_id")
     )
 
     private List<Cage> cages;

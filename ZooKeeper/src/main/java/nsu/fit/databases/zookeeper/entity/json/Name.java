@@ -1,4 +1,4 @@
-package nsu.fit.databases.zookeeper.entity;
+package nsu.fit.databases.zookeeper.entity.json;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

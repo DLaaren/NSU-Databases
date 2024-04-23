@@ -21,8 +21,8 @@ public class Vet extends Worker{
     @ManyToMany
     @JoinTable(
             name = "vet_vet_card_relation",
-            joinColumns = @JoinColumn(name = "vet_card_id"),
-            inverseJoinColumns = @JoinColumn(name = "vet_id")
+            joinColumns = @JoinColumn(name = "vet_id"),
+            inverseJoinColumns = @JoinColumn(name = "vet_card_id")
     )
     private List<VetCard> vetCards;
 

@@ -1,4 +1,4 @@
-package nsu.fit.databases.zookeeper.entity;
+package nsu.fit.databases.zookeeper.entity.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
