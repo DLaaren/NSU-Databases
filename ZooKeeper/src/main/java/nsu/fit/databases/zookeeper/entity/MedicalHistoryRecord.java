@@ -18,7 +18,7 @@ public class MedicalHistoryRecord {
     private long id;
 
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(name = "vet_card_id", nullable = false)
     private VetCard vetCard;
 
     @Column(nullable = false)

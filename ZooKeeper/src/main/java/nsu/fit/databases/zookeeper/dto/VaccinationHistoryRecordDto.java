@@ -2,11 +2,12 @@ package nsu.fit.databases.zookeeper.dto;
 
 import lombok.Value;
 
+import java.sql.Date;
+
 @Value
-public class AnimalDto {
+public class VaccinationHistoryRecordDto {
     Long id;
-    String name;
-    Long speciesId;
     Long vetCardId;
-    boolean needWarmCage;
+    Date date;
+    String vaccination;
 }

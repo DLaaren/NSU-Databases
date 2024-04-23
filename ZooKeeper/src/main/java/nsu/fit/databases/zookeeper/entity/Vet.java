@@ -1,9 +1,6 @@
 package nsu.fit.databases.zookeeper.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +18,12 @@ import java.util.List;
 public class Vet extends Worker{
     // id will be the same as the id in 'worker' table
 
-    @ManyToMany(mappedBy = "vet_card")
+    @ManyToMany
+    @JoinTable(
+            name = "vet_vet_card_relation",
+            joinColumns = @JoinColumn(name = "vet_card_id"),
+            inverseJoinColumns = @JoinColumn(name = "vet_id")
+    )
     private List<VetCard> vetCards;
 
     @Column(length = 64)

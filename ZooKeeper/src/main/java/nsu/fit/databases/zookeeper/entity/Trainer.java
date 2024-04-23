@@ -21,7 +21,7 @@ import java.util.List;
 public class Trainer extends Worker {
     // id will be the same as the id in 'worker' table
 
-    @ManyToMany(mappedBy = "animal")
+    @ManyToMany(mappedBy = "trainers")
     private List<Animal> animals;
 
     @Column(length = 64)

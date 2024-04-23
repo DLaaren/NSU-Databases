@@ -20,19 +20,26 @@ public class Animal {
     private String name;
 
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(name = "species_id", nullable = false)
     private Species species;
 
     // двустороннее отношение между сущностями
     @OneToOne
+    @JoinColumn(name = "vet_card_id", nullable = false)
     private VetCard vetCard;
 
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(name = "cage_id", nullable = false)
+//    @Column(nullable = false)
     private Cage cage;
 
     private boolean needWarmCage;
 
     @ManyToMany
+    @JoinTable(
+            name = "animal_trainer_relation",
+            joinColumns = @JoinColumn(name = "trainer_id"),
+            inverseJoinColumns = @JoinColumn(name = "animal_id")
+    )
     private List<Trainer> trainers;
 }

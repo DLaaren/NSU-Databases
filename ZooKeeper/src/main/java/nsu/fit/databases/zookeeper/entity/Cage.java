@@ -15,9 +15,9 @@ import java.util.List;
 @Table(name = "cage")
 public class Cage {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // we do not generate its value 'cause we want to set out own
     private long id;
 
-    @ManyToMany(mappedBy = "cleaner")
+    @ManyToMany(mappedBy = "cages")
     private List<Cleaner> cleaners;
 }

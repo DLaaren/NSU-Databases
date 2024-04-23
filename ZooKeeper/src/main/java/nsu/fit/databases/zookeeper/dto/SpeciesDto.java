@@ -1,15 +1,11 @@
 package nsu.fit.databases.zookeeper.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
 import nsu.fit.databases.zookeeper.entity.Enums.FeedingType;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+@Value
 public class SpeciesDto {
-    private Long id;
-    private String speciesName;
-    private FeedingType feedingType;
+    Long id;
+    String speciesName;
+    FeedingType feedingType;
 }

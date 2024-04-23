@@ -21,5 +21,6 @@ public class Species {
     @Column(nullable = false, length = 32)
     private String speciesName;
 
+    @Enumerated(EnumType.STRING)
     private FeedingType feedingType;
 }

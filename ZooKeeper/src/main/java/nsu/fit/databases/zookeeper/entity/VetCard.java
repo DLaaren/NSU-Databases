@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +16,7 @@ public class VetCard {
     @Id
     private long id;
 
-    @OneToOne(mappedBy = "animal", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "vetCard", cascade = CascadeType.ALL)
     @MapsId
     private Animal animal;
 
@@ -38,6 +39,11 @@ public class VetCard {
     private Date gestationTerm;
 
     // default length is 255
-    @Column
     private String addInfo;
+
+    @ManyToMany(mappedBy = "vetCards")
+    private List<Vet> vets;
+
+
+    // do we need to add records?
 }
