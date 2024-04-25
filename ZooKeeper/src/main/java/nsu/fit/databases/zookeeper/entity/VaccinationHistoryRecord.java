@@ -26,5 +26,5 @@ public class VaccinationHistoryRecord {
     private Date date;
 
     @Column(nullable = false, length = 64)
-    private String vaccination;
+    private String vaccine;
 }

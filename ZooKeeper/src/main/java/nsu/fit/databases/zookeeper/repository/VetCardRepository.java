@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VetCardRepository extends JpaRepository<VetCard, Long> {
+    // find vet card and
 }

@@ -5,6 +5,7 @@ import lombok.*;
 import nsu.fit.databases.zookeeper.entity.Enums.JobTitle;
 import nsu.fit.databases.zookeeper.entity.json.Name;
 import nsu.fit.databases.zookeeper.entity.json.NameAttributeConverter;
+import org.hibernate.annotations.ColumnTransformer;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,13 +18,15 @@ public class Worker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Convert(converter = NameAttributeConverter.class)
+//    @JdbcTypeCode(SqlTypes.JSON)
     @Column(nullable = false)
+    @ColumnTransformer(write = "?::jsonb")
     private Name name;
 
-    private Integer salary;
+    private double salary;
 
     @Enumerated(EnumType.STRING)
     private JobTitle jobTitle;

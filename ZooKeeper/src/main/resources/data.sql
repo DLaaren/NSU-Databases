@@ -95,8 +95,8 @@ INSERT INTO vet_card (age, sex, height, weight, need_isolation, is_pregnant, ges
 
 INSERT INTO animal_trainer_relation (animal_id, trainer_id) VALUES
     (1, 2),
-    (2, 4),
-    (3, 14),
+    (2, 2),
+    (3, 4),
     (4, 14);
 
 INSERT INTO cleaner_cage_relation (cage_id, cleaner_id) VALUES
@@ -110,14 +110,15 @@ INSERT INTO vet_vet_card_relation (vet_card_id, vet_id) VALUES
     (3, 9),
     (3, 8);
 
-INSERT INTO vaccination_history_record (date, vet_card_id, vaccination) VALUES
+INSERT INTO vaccination_history_record (date, vet_card_id, vaccine) VALUES
     ('2024-03-11', 1, 'CDV'),
-    ('2023-04-12', 2, 'CAV'),
+    ('2023-04-12', 1, 'CAV'),
+    ('2022-04-12', 1, 'CAV'),
     ('2022-12-01', 3, 'CDV'),
     ('2024-09-30', 4, 'CAV');
 
 INSERT INTO medical_history_record (date, vet_card_id, disease, treatment) VALUES
    ('2024-03-11', 1, 'Coronavirus', 'Isolation'),
-   ('2023-04-12', 2, 'Scrapie', 'Isolation'),
+   ('2023-04-12', 1, 'Scrapie', 'Isolation'),
    ('2022-12-01', 3, 'Coronavirus', 'Isolation'),
    ('2024-09-30', 4, 'Scrapie', 'Isolation');

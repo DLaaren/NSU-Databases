@@ -30,15 +30,15 @@ public class VetCard {
     private String sex;
 
     @Column(columnDefinition = "NUMERIC CHECK (height > 0)")
-    private double height;
+    private Double height;
 
     @Column(columnDefinition = "NUMERIC CHECK (weight > 0)")
-    private double weight;
+    private Double weight;
 
-    private boolean needIsolation;
+    private Boolean needIsolation;
 
     @Column(columnDefinition = "BOOLEAN CHECK (NOT(is_pregnant = TRUE and sex = 'male'))")
-    private boolean isPregnant;
+    private Boolean isPregnant;
 
     @Column(columnDefinition = "DATE CHECK (is_pregnant = TRUE)")
     private Date gestationTerm;
