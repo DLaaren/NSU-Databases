@@ -1,8 +1,10 @@
 package nsu.fit.databases.zookeeper;
 
+import nsu.fit.databases.zookeeper.entity.*;
 import nsu.fit.databases.zookeeper.entity.Enums.JobTitle;
-import nsu.fit.databases.zookeeper.entity.Worker;
 import nsu.fit.databases.zookeeper.entity.json.Name;
+import nsu.fit.databases.zookeeper.repository.AnimalRepository;
+import nsu.fit.databases.zookeeper.repository.SpeciesRepository;
 import nsu.fit.databases.zookeeper.repository.WorkerRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Optional;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,6 +23,10 @@ public class WorkerRepositoryTest extends BaseRepositoryTest {
 
     @Autowired
     private WorkerRepository workerRepository;
+    @Autowired
+    private AnimalRepository animalRepository;
+    @Autowired
+    private SpeciesRepository speciesRepository;
 
     @DisplayName("testWorkerCRUD")
     @Test
@@ -45,14 +51,14 @@ public class WorkerRepositoryTest extends BaseRepositoryTest {
         // update worker
         name.setFirstName("Aboba");
         worker.setName(name);
-        worker.setSalary(0);
+        worker.setSalary(0.0);
         worker.setJobTitle(null);
 
         // find worker by id
         Worker result2 = workerRepository.getReferenceById(worker.getId());
         assertNotNull(result2);
-        assertEquals("Aboba", result2.getName().getFirstName());
-        assertEquals(0, result2.getSalary());
+        assertEquals(result2.getName().getFirstName(), "Aboba");
+        assertEquals(result2.getSalary(), 0.0);
         assertNull(result2.getJobTitle());
 
         // delete worker
@@ -66,6 +72,19 @@ public class WorkerRepositoryTest extends BaseRepositoryTest {
     @DisplayName("testWorkerQueryJsonColumn")
     public void testWorkerQueryJsonColumn() {
         assertNotNull(workerRepository);
+        Name name = new Name();
+        name.setFirstName("Misha");
+        name.setMiddleName("Alexander");
+        name.setSecondName("Popov");
+        name.setPatronymicName("Victorovich");
+
+        Worker worker = new Worker(null, name, null, null);
+        worker = workerRepository.saveAndFlush(worker);
+
+        assertEquals(workerRepository.getFirstNameByWorkerId(worker.getId()), "Misha");
+        assertEquals(workerRepository.getMiddleNameByWorkerId(worker.getId()), "Alexander");
+        assertEquals(workerRepository.getSecondNameByWorkerId(worker.getId()), "Popov");
+        assertEquals(workerRepository.getPatronymicNameByWorkerId(worker.getId()), "Victorovich");
     }
 
 
@@ -74,5 +93,40 @@ public class WorkerRepositoryTest extends BaseRepositoryTest {
     @DisplayName("testTrainerAnimalJoin")
     public void testTrainerAnimalJoin() {
         assertNotNull(workerRepository);
+
+        Animal animal = new Animal();
+
+        Trainer trainer1 = new Trainer();
+        Trainer trainer2 = new Trainer();
+        Trainer trainer3 = new Trainer();
+        Name name1 = new Name();
+        Name name2 = new Name();
+        Name name3 = new Name();
+        name1.setFirstName("Trainer1");
+        name2.setFirstName("Trainer2");
+        name3.setFirstName("Trainer3");
+        trainer1.setName(name1);
+        trainer1.setAnimals(List.of(animal));
+        trainer2.setName(name2);
+        trainer2.setAnimals(List.of(animal));
+        trainer3.setName(name3);
+        trainer3.setAnimals(List.of(animal));
+        List<Trainer> trainers = List.of(trainer1,trainer2,trainer3);
+
+        Species species = new Species();
+        species.setSpeciesName("Chicken");
+        species = speciesRepository.saveAndFlush(species);
+
+        animal.setSpecies(species);
+        animal.setName("Bob");
+        animal.setTrainers(trainers);
+
+        trainers = workerRepository.saveAllAndFlush(trainers);
+
+        animal = animalRepository.saveAndFlush(animal);
+
+        List<Trainer> returnedTrainers = workerRepository.getAllTrainersAreResponsibleForTheAnimal(animal);
+
+        assertArrayEquals(trainers.toArray(), returnedTrainers.toArray());
     }
 }

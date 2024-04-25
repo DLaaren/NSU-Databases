@@ -28,7 +28,7 @@ public class Animal {
     private VetCard vetCard;
 
     @ManyToOne
-    @JoinColumn(name = "cage_id", nullable = false)
+    @JoinColumn(name = "cage_id")
     private Cage cage;
 
     private boolean needWarmCage;

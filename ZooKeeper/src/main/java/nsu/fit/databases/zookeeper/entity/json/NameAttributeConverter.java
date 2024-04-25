@@ -16,7 +16,7 @@ public class NameAttributeConverter implements AttributeConverter<Name, String> 
         try {
             return objectMapper.writeValueAsString(name);
         } catch (JsonProcessingException jpe) {
-            log.warn("Cannot convert Address into JSON");
+            log.warn("Cannot convert Name into JSON");
             return null;
         }
     }
@@ -26,7 +26,7 @@ public class NameAttributeConverter implements AttributeConverter<Name, String> 
         try {
             return objectMapper.readValue(s, Name.class);
         } catch (JsonProcessingException e) {
-            log.warn("Cannot convert JSON into Address");
+            log.warn("Cannot convert JSON into Name");
             return null;
         }
     }

@@ -6,6 +6,9 @@ import nsu.fit.databases.zookeeper.entity.Enums.JobTitle;
 import nsu.fit.databases.zookeeper.entity.json.Name;
 import nsu.fit.databases.zookeeper.entity.json.NameAttributeConverter;
 import org.hibernate.annotations.ColumnTransformer;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Type;
+import org.hibernate.type.SqlTypes;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,13 +23,13 @@ public class Worker {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Convert(converter = NameAttributeConverter.class)
-//    @JdbcTypeCode(SqlTypes.JSON)
+//    @Convert(converter = NameAttributeConverter.class)
     @Column(nullable = false)
-    @ColumnTransformer(write = "?::jsonb")
+//    @ColumnTransformer(write = "?::jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
     private Name name;
 
-    private double salary;
+    private Double salary;
 
     @Enumerated(EnumType.STRING)
     private JobTitle jobTitle;

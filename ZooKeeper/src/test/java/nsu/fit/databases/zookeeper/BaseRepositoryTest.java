@@ -51,7 +51,8 @@ public abstract class BaseRepositoryTest {
                     "spring.test.database.replace=none", // Tells Spring Boot not to start in-memory db for tests.
                     "spring.datasource.url=" + database.getJdbcUrl(),
                     "spring.datasource.username=" + database.getUsername(),
-                    "spring.datasource.password=" + database.getPassword()
+                    "spring.datasource.password=" + database.getPassword(),
+                    "spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect"
             );
         }
     }
