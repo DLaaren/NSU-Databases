@@ -22,23 +22,23 @@ INSERT INTO cage (id) VALUES
       (11),
       (9);
 
-INSERT INTO worker (name, salary, job_title) VALUES
-     ('{"firstName": "Ines", "secondName": "Park"}', 14.3, 'CLEANER'),
-     ('{"firstName": "Adam", "secondName": "Black"}', 54.8, 'TRAINER'),
-     ('{"firstName": "Boil", "secondName": "Red"}', 23.3, 'CLEANER'),
-     ('{"firstName": "Sam", "secondName": "Blue"}', 42.2, 'TRAINER'),
-     ('{"firstName": "Misha", "secondName": "Bobov", "patronymicName": "Victorovich"}', 21.4, 'CLEANER'),
-     ('{"firstName": "Lila", "middleName": "Lee", "secondName": "Parkman"}', 54.5, 'ADMINISTRATIVE_WORKER'),
-     ('{"firstName": "Vlad", "secondName": "Dikiy"}', 23.5, 'VETERINARIAN'),
-     ('{"firstName": "Boba", "secondName": "Aboba"}', 63.4, 'VETERINARIAN'),
-     ('{"firstName": "July", "secondName": "Clark"}', 54.7, 'VETERINARIAN'),
-     ('{"firstName": "Ivan", "secondName": "Plushkin", "patronymicName": "Michailovich"}', 64.5, 'ADMINISTRATIVE_WORKER'),
-     ('{"firstName": "Tyler", "secondName": "Durden"}', 23.6, 'HANDY_WORKER'),
-     ('{"firstName": "Sherri", "secondName": "Gould"}', 63.6, 'VETERINARIAN'),
-     ('{"firstName": "Kirsten", "secondName": "Hopper"}', 12.6, 'HANDY_WORKER'),
-     ('{"firstName": "Dorothea", "secondName": "Curtis"}', 62.6, 'TRAINER'),
-     ('{"firstName": "Savage", "secondName": "Bolton"}', 67.6, 'ADMINISTRATIVE_WORKER'),
-     ('{"firstName": "Marsha", "secondName": "Saveman"}', 13.6, 'HANDY_WORKER');
+INSERT INTO worker (name, age, salary, job_title) VALUES
+     ('{"firstName": "Ines", "secondName": "Park"}', 43, 14.3, 'CLEANER'),
+     ('{"firstName": "Adam", "secondName": "Black"}', 43, 54.8, 'TRAINER'),
+     ('{"firstName": "Boil", "secondName": "Red"}', 53, 23.3, 'CLEANER'),
+     ('{"firstName": "Sam", "secondName": "Blue"}', 54,42.2, 'TRAINER'),
+     ('{"firstName": "Misha", "secondName": "Bobov", "patronymicName": "Victorovich"}', 65, 21.4, 'CLEANER'),
+     ('{"firstName": "Lila", "middleName": "Lee", "secondName": "Parkman"}', 23, 54.5, 'ADMINISTRATIVE_WORKER'),
+     ('{"firstName": "Vlad", "secondName": "Dikiy"}', 54, 23.5, 'VETERINARIAN'),
+     ('{"firstName": "Boba", "secondName": "Aboba"}', 23, 63.4, 'VETERINARIAN'),
+     ('{"firstName": "July", "secondName": "Clark"}', 54, 54.7, 'VETERINARIAN'),
+     ('{"firstName": "Ivan", "secondName": "Plushkin", "patronymicName": "Michailovich"}', 62, 64.5, 'ADMINISTRATIVE_WORKER'),
+     ('{"firstName": "Tyler", "secondName": "Durden"}', 19, 23.6, 'HANDY_WORKER'),
+     ('{"firstName": "Sherri", "secondName": "Gould"}', 51, 63.6, 'VETERINARIAN'),
+     ('{"firstName": "Kirsten", "secondName": "Hopper"}', 24, 12.6, 'HANDY_WORKER'),
+     ('{"firstName": "Dorothea", "secondName": "Curtis"}', 36, 62.6, 'TRAINER'),
+     ('{"firstName": "Savage", "secondName": "Bolton"}', 53, 67.6, 'ADMINISTRATIVE_WORKER'),
+     ('{"firstName": "Marsha", "secondName": "Saveman"}', 21, 13.6, 'HANDY_WORKER');
 
 INSERT INTO administrator(id)
 SELECT id from worker
@@ -122,3 +122,33 @@ INSERT INTO medical_history_record (date, vet_card_id, disease, treatment) VALUE
    ('2023-04-12', 1, 'Scrapie', 'Isolation'),
    ('2022-12-01', 3, 'Coronavirus', 'Isolation'),
    ('2024-09-30', 4, 'Scrapie', 'Isolation');
+
+
+
+CREATE OR REPLACE PROCEDURE appoint_trainer_for_animal(t_id BIGINT, a_id BIGINT)
+    LANGUAGE plpgsql
+AS
+'
+BEGIN
+    INSERT INTO animal_trainer_relation (animal_id, trainer_id) VALUES (a_id, t_id);
+    RETURN;
+END;
+';;
+
+
+
+CREATE OR REPLACE FUNCTION create_vet_card_for_animal()
+    RETURNS trigger AS
+'
+DECLARE
+BEGIN
+    INSERT INTO vet_card(animal_id) VALUES (new.id);
+    RETURN new;
+END;
+'
+LANGUAGE plpgsql;;
+
+CREATE TRIGGER vet_card_for_animal_trigger
+    AFTER INSERT ON animal
+    FOR EACH ROW
+EXECUTE PROCEDURE create_vet_card_for_animal();

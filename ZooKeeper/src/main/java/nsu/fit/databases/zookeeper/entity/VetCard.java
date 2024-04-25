@@ -23,7 +23,7 @@ public class VetCard {
     @JoinColumn(name = "animal_id", nullable = false)
     private Animal animal;
 
-    @Column(nullable = false, columnDefinition = "INT CHECK (age >= 0)")
+    @Column(columnDefinition = "INT CHECK (age >= 0)")
     private int age;
 
     @Column(length = 8)

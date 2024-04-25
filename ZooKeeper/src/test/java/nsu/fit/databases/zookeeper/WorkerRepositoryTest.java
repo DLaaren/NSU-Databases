@@ -31,12 +31,10 @@ public class WorkerRepositoryTest extends BaseRepositoryTest {
     @DisplayName("testWorkerCRUD")
     @Test
     public void testWorkerCRUD() {
-        assertNotNull(workerRepository);
-
         Name name = new Name();
         name.setFirstName("Misha");
         // we don't need to set id, 'cause database will use its own strategy
-        Worker worker = new Worker(null, name, 12.3, JobTitle.CLEANER);
+        Worker worker = new Worker(null, name, 24, 12.3, JobTitle.CLEANER);
 
         // save worker
         worker = workerRepository.saveAndFlush(worker);
@@ -71,14 +69,13 @@ public class WorkerRepositoryTest extends BaseRepositoryTest {
     @Test
     @DisplayName("testWorkerQueryJsonColumn")
     public void testWorkerQueryJsonColumn() {
-        assertNotNull(workerRepository);
         Name name = new Name();
         name.setFirstName("Misha");
         name.setMiddleName("Alexander");
         name.setSecondName("Popov");
         name.setPatronymicName("Victorovich");
 
-        Worker worker = new Worker(null, name, null, null);
+        Worker worker = new Worker(null, name, null, null, null);
         worker = workerRepository.saveAndFlush(worker);
 
         assertEquals(workerRepository.getFirstNameByWorkerId(worker.getId()), "Misha");
@@ -92,8 +89,6 @@ public class WorkerRepositoryTest extends BaseRepositoryTest {
     @Test
     @DisplayName("testTrainerAnimalJoin")
     public void testTrainerAnimalJoin() {
-        assertNotNull(workerRepository);
-
         Animal animal = new Animal();
 
         Trainer trainer1 = new Trainer();
