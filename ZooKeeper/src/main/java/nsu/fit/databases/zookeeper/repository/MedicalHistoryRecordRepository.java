@@ -1,5 +1,6 @@
 package nsu.fit.databases.zookeeper.repository;
 
+import nsu.fit.databases.zookeeper.entity.Animal;
 import nsu.fit.databases.zookeeper.entity.MedicalHistoryRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

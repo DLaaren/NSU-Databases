@@ -17,7 +17,7 @@ public class Species {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NaturalId // unique key allows easier and quicker looking up
+    @NaturalId // immutable unique key allows easier and quicker looking up --> index
     @Column(nullable = false, length = 32)
     private String speciesName;
 

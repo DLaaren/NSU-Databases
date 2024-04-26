@@ -4,7 +4,12 @@ package nsu.fit.databases.zookeeper.service;
 import lombok.AllArgsConstructor;
 import nsu.fit.databases.zookeeper.entity.Animal;
 import nsu.fit.databases.zookeeper.exception.ServerException;
+import nsu.fit.databases.zookeeper.repository.AnimalPagingAndSortingRepository;
 import nsu.fit.databases.zookeeper.repository.AnimalRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +19,26 @@ import java.util.List;
 @Service
 public class AnimalService {
 
-    private AnimalRepository animalRepository;
+    private final AnimalPagingAndSortingRepository animalPagingAndSortingRepository;
+    private final AnimalRepository animalRepository;
 
     public List<Animal> getAllAnimals() {
         return animalRepository.findAll();
+    }
+
+    public Page<Animal> getAllAnimalsPageable(int pageNumber, int pageSize) {
+        Pageable page = PageRequest.of(pageNumber, pageSize);
+        return animalPagingAndSortingRepository.findAll(page);
+    }
+
+    public Page<Animal> getAllAnimalsPageableSortedDesc(int pageNumber, int pageSize, String sortedBy) {
+        Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sortedBy).descending());
+        return animalPagingAndSortingRepository.findAll(page);
+    }
+
+    public Page<Animal> getAllAnimalsPageableSortedAsc(int pageNumber, int pageSize, String sortedBy) {
+        Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sortedBy).ascending());
+        return animalPagingAndSortingRepository.findAll(page);
     }
 
     public Animal getAnimalByIdOrThrow(Long id) {

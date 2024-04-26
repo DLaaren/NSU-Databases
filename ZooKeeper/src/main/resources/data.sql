@@ -152,3 +152,24 @@ CREATE TRIGGER vet_card_for_animal_trigger
     AFTER INSERT ON animal
     FOR EACH ROW
 EXECUTE PROCEDURE create_vet_card_for_animal();
+
+
+
+CREATE TABLE IF NOT EXISTS parents_children (
+    mother_id BIGINT,
+    father_id BIGINT,
+    child_id BIGINT,
+    FOREIGN KEY (mother_id) REFERENCES animal(id),
+    FOREIGN KEY (father_id) REFERENCES animal(id),
+    FOREIGN KEY (child_id) REFERENCES animal(id)
+);;
+
+
+INSERT INTO parents_children(mother_id, father_id, child_id) VALUES
+     (1, 4, 5),
+     (7, 6, 2),
+     (5, 2, 9);
+
+
+CREATE INDEX worker_age_idx ON worker (age)
+WHERE age > 18;

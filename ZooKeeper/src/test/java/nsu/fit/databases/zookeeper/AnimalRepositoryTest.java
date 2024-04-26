@@ -12,10 +12,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.repository.query.Param;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -67,5 +71,24 @@ public class AnimalRepositoryTest extends BaseRepositoryTest {
 
         assertEquals(returnedAnimals.get(0), animal);
         assertEquals(returnedTrainers.get(0), trainer);
+    }
+
+    @DisplayName("testFindAllByLastVaccine")
+    @Test
+    public void testFindAllByLastVaccine() {
+        List<Object[]> animalAndLastVaccineDate = animalRepository.findAllByLastVaccine("CAV");
+
+        assertNotNull(animalAndLastVaccineDate);
+        assertEquals(animalAndLastVaccineDate.size(), 2);
+
+        Animal animal1 = (Animal) animalAndLastVaccineDate.get(0)[0];
+        Date date1 = (Date) animalAndLastVaccineDate.get(0)[1];
+        Animal animal2 = (Animal) animalAndLastVaccineDate.get(1)[0];
+        Date date2 = (Date) animalAndLastVaccineDate.get(1)[1];
+
+        assertEquals(animal1, animalRepository.getReferenceById(1L));
+        assertEquals(animal2, animalRepository.getReferenceById(4L));
+        assertEquals(date1.toString(), "2023-04-12");
+        assertEquals(date2.toString(), "2024-09-30");
     }
 }

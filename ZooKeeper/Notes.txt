@@ -19,3 +19,7 @@ https://www.baeldung.com/spring-boot-jpa-storing-postgresql-jsonb
 
 About psql + pagination
 https://www.baeldung.com/spring-data-jpa-query
+
+
+recursive queries
+https://builtin.com/data-science/recursive-sql
