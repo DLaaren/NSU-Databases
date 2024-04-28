@@ -19,6 +19,7 @@ jobs:
           username: ${{ secrets.HOST_USERNAME }}
           key: ${{ secrets.HOST_PASSWORD }}
           script: |
+            rm -rf my_project 
             mkdir my_project && cd my_project
             eval 'ssh-agent -s'
             ssh-add /root/.ssh/github
