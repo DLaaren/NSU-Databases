@@ -20,11 +20,10 @@ jobs:
           password: ${{ secrets.HOST_PASSWORD }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            whoami
-            # rm -rf my_project 
-            # mkdir my_project && cd my_project
-            # eval $(ssh-agent -s)
-            # ssh-add /root/.ssh/github
-            # git clone -b deploy git@github.com:DLaaren/Databases.git
-            # cd Databases
-            # docker-compose up
+            rm -rf my_project 
+            mkdir my_project && cd my_project
+            eval $(ssh-agent -s)
+            ssh-add /root/.ssh/github
+            git clone -b deploy git@github.com:DLaaren/Databases.git
+            cd Databases
+            docker-compose up -d
