@@ -18,7 +18,7 @@ jobs:
           host: ${{ secrets.HOST_SERVER }}
           username: ${{ secrets.HOST_USERNAME }}
           password: ${{ secrets.HOST_PASSWORD }}
-          key: ${{ secrets.SSH_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             rm -rf my_project 
             mkdir my_project && cd my_project
