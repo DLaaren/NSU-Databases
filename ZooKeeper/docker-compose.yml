@@ -18,13 +18,13 @@ services:
       - "5432:5432"
 
   app:
-#    image: add image
+    image: "dlaaren/zookeeper:latest"
     container_name: zookeeper
     restart: always
 
-    build:
-      context: ./
-      dockerfile: Dockerfile
+#    build:
+#      context: ./
+#      dockerfile: Dockerfile
 
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/zookeeper

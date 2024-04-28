@@ -148,6 +148,8 @@ END;
 '
 LANGUAGE plpgsql;;
 
+
+
 CREATE TRIGGER vet_card_for_animal_trigger
     AFTER INSERT ON animal
     FOR EACH ROW
@@ -165,10 +167,12 @@ CREATE TABLE IF NOT EXISTS parents_children (
 );;
 
 
+
 INSERT INTO parents_children(mother_id, father_id, child_id) VALUES
      (1, 4, 5),
      (7, 6, 2),
      (5, 2, 9);
+
 
 
 CREATE INDEX worker_age_idx ON worker (age)
