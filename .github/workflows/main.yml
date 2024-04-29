@@ -24,6 +24,6 @@ jobs:
             mkdir my_project && cd my_project
             eval $(ssh-agent -s)
             ssh-add /root/.ssh/github
-            git clone -b deploy git@github.com:DLaaren/Databases.git
-            cd Databases
+            git clone -b dev git@github.com:DLaaren/Databases.git
+            cd Databases/ZooKeeper
             docker-compose up -d
