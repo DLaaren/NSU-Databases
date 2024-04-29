@@ -19,7 +19,7 @@ services:
 
   app:
 #    image: "dlaaren/zookeeper:latest"
-    container_name: zookeeper
+    container_name: zookeeper-app
     restart: always
 
     build:
