@@ -1,7 +1,7 @@
 package nsu.fit.databases.zookeeper.dto;
 
 import lombok.Value;
-import nsu.fit.databases.zookeeper.entity.Enums.FeedingType;
+import nsu.fit.databases.zookeeper.entity.enums.FeedingType;
 
 @Value
 public class SpeciesDto {

@@ -1,7 +1,7 @@
 package nsu.fit.databases.zookeeper;
 
 import nsu.fit.databases.zookeeper.entity.*;
-import nsu.fit.databases.zookeeper.entity.Enums.JobTitle;
+import nsu.fit.databases.zookeeper.entity.enums.JobTitle;
 import nsu.fit.databases.zookeeper.entity.json.Name;
 import nsu.fit.databases.zookeeper.repository.AnimalRepository;
 import nsu.fit.databases.zookeeper.repository.SpeciesRepository;

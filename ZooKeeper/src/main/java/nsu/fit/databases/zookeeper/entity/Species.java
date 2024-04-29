@@ -2,7 +2,7 @@ package nsu.fit.databases.zookeeper.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import nsu.fit.databases.zookeeper.entity.Enums.FeedingType;
+import nsu.fit.databases.zookeeper.entity.enums.FeedingType;
 import org.hibernate.annotations.NaturalId;
 
 

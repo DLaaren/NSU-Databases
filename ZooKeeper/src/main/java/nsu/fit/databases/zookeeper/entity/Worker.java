@@ -2,7 +2,7 @@ package nsu.fit.databases.zookeeper.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import nsu.fit.databases.zookeeper.entity.Enums.JobTitle;
+import nsu.fit.databases.zookeeper.entity.enums.JobTitle;
 import nsu.fit.databases.zookeeper.entity.json.Name;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;

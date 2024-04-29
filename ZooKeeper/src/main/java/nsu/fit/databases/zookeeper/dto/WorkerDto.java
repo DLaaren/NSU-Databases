@@ -1,7 +1,7 @@
 package nsu.fit.databases.zookeeper.dto;
 
 import lombok.Value;
-import nsu.fit.databases.zookeeper.entity.Enums.JobTitle;
+import nsu.fit.databases.zookeeper.entity.enums.JobTitle;
 
 @Value
 public class WorkerDto {
