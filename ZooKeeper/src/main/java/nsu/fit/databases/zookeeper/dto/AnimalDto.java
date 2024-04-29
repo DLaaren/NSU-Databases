@@ -8,5 +8,5 @@ public class AnimalDto {
     String name;
     Long speciesId;
     Long vetCardId;
-    boolean needWarmCage;
+    Boolean needWarmCage;
 }
