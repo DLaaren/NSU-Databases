@@ -3,12 +3,12 @@ ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
 COPY build.gradle settings.gradle $APP_HOME
 
+RUN export JAVA_HOME=$(readlink -f $(which java) | sed "s:/bin/java::")
+
 COPY gradle $APP_HOME/gradle
 COPY --chown=gradle:gradle . /home/gradle/src
 USER root
 RUN chown -R gradle /home/gradle/src
-
-RUN export JAVA_HOME=$(readlink -f $(which java) | sed "s:/bin/java::")
 
 COPY . .
 RUN gradle clean build -x test
