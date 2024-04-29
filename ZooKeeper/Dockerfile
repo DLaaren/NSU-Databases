@@ -8,6 +8,8 @@ COPY --chown=gradle:gradle . /home/gradle/src
 USER root
 RUN chown -R gradle /home/gradle/src
 
+RUN export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64/bin/java"
+
 COPY . .
 RUN gradle clean build -x test
 
