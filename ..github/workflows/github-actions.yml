@@ -1,6 +1,29 @@
-name: Github Actions
-on: [push]
+name: Deploy to Hosting
+on:
+  push:
+    branches:
+      - dev
+
 jobs:
-  init:
+  deploy:
     runs-on: ubuntu-latest
-      
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to Hosting
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST_SERVER }}
+          username: ${{ secrets.HOST_USERNAME }}
+          password: ${{ secrets.HOST_PASSWORD }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            rm -rf my_project 
+            mkdir my_project && cd my_project
+            eval $(ssh-agent -s)
+            ssh-add /root/.ssh/github
+            git clone -b deploy git@github.com:DLaaren/Databases.git
+            cd Databases
+            docker-compose up -d
