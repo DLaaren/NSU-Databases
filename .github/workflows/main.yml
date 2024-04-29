@@ -25,5 +25,5 @@ jobs:
             eval $(ssh-agent -s)
             ssh-add /root/.ssh/github
             git clone -b dev git@github.com:DLaaren/Databases.git
-            cd Databases
+            cd Databases/ZooKeeper
             docker-compose up -d
