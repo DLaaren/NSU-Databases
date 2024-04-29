@@ -26,4 +26,5 @@ jobs:
             ssh-add /root/.ssh/github
             git clone -b dev git@github.com:DLaaren/Databases.git
             cd Databases/ZooKeeper
+            docker-compose build
             docker-compose up -d
