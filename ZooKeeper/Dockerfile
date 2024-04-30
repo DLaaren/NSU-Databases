@@ -1,10 +1,5 @@
-FROM gradle as builder
-COPY --chown=gradle:gradle . /home/gradle/src
-WORKDIR /home/gradle/src
-RUN gradle build --no-daemon -x test
 
-FROM openjdk:17-alpine
-EXPOSE 8080
+FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
-COPY --from=builder /home/gradle/src/build/libs/*.jar ./app.jar
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ADD build/libs/zookeeper.jar /app/zookeeper.jar
+ENTRYPOINT ["java", "-jar", "zookeeper.jar"]
