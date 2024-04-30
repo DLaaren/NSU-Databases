@@ -21,12 +21,11 @@ jobs:
           password: ${{ secrets.HOST_PASSWORD }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            rm -rf my_project 
-            mkdir my_project && cd my_project
             eval $(ssh-agent -s)
             ssh-add /root/.ssh/github
-            git clone -b dev git@github.com:DLaaren/Databases.git
-            cd Databases/ZooKeeper
+            cd my_project/Databases
+            git pull
+            cd ZooKeeper
             ./gradlew clean build -x test
             docker-compose build
             docker-compose up -d
