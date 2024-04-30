@@ -1,10 +1,7 @@
 package nsu.fit.databases.zookeeper.repository;
 
 import nsu.fit.databases.zookeeper.entity.Animal;
-import nsu.fit.databases.zookeeper.entity.Species;
 import nsu.fit.databases.zookeeper.entity.Trainer;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

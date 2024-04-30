@@ -1,13 +1,11 @@
 package nsu.fit.databases.zookeeper.dto;
 
-import lombok.Value;
 import nsu.fit.databases.zookeeper.entity.enums.JobTitle;
 
-@Value
-public class WorkerDto {
-    Long id;
-    String name;
-    Integer salary;
-    JobTitle jobTitle;
-    String specialization;
+public record WorkerDto (
+    Long id,
+    String name,
+    Integer age,
+    Integer salary,
+    JobTitle jobTitle) {
 }

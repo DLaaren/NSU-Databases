@@ -49,7 +49,7 @@ public class AnimalController {
         {
             throw new ServerException(HttpStatus.BAD_REQUEST, "IDs don't match");
         }
-        return convertToDto(animalService.updateAnimal(id, convertToEntity(animalDto)));
+        return convertToDto(animalService.updateAnimal(convertToEntity(animalDto)));
     }
 
     @DeleteMapping("/{id}")
@@ -63,7 +63,6 @@ public class AnimalController {
     }
 
     private Animal convertToEntity(AnimalDto animalDto) {
-        System.out.println(animalDto);
         return animalMapper.map(animalDto, Animal.class);
     }
 }

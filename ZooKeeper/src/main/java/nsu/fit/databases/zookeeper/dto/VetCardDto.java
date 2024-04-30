@@ -1,21 +1,19 @@
 package nsu.fit.databases.zookeeper.dto;
 
-import lombok.Value;
+import nsu.fit.databases.zookeeper.entity.Vet;
 
+import java.sql.Date;
 import java.util.List;
 
-@Value
-public class VetCardDto{
-    Long id;
-    Long animalId;
-    String name;
-    String sex;
-    Integer height;
-    Integer weight;
-    boolean needIsolation;
-    boolean isPregnant;
-    Integer gestationTerm;
-    String addInfo;
-    List<VaccinationHistoryRecordDto> vaccinationHistoryRecords;
-    List<MedicalHistoryRecordDto> medicalHistoryRecords;
+public record VetCardDto (
+    Long id,
+    Integer age,
+    String sex,
+    Integer height,
+    Integer weight,
+    Boolean needIsolation,
+    Boolean isPregnant,
+    Date gestationTerm,
+    String addInfo,
+    List<Vet> vets) {
 }

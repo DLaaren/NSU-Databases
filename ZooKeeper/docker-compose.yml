@@ -16,20 +16,20 @@ services:
 
     ports:
       - "5432:5432"
-
-  app:
-#    image: "dlaaren/zookeeper:latest"
-    container_name: zookeeper-app
-    restart: always
-
-    build:
-      context: ./
-      dockerfile: Dockerfile
-
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/zookeeper
-
-    ports:
-      - "8080:8080"
-    depends_on:
-      - database
+#
+#  app:
+##    image: "dlaaren/zookeeper:latest"
+#    container_name: zookeeper-app
+#    restart: always
+#
+#    build:
+#      context: ./
+#      dockerfile: Dockerfile
+#
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/zookeeper
+#
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - database

@@ -64,7 +64,7 @@ public class AnimalService {
         return animalRepository.save(animal);
     }
 
-    public Animal updateAnimal(Long id, Animal animal) {
+    public Animal updateAnimal(Animal animal) {
         nonExistOrThrow(animal);
         return animalRepository.save(animal);
     }

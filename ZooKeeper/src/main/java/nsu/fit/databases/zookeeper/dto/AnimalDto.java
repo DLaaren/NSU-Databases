@@ -1,14 +1,18 @@
 package nsu.fit.databases.zookeeper.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Value;
+import lombok.*;
+import nsu.fit.databases.zookeeper.entity.Trainer;
 
+import java.util.List;
+
+@NoArgsConstructor
 @AllArgsConstructor
-@Value
+@Data
 public class AnimalDto {
-    Long id;
-    String name;
-    Long speciesId;
-    Long vetCardId;
-    Boolean needWarmCage;
+        private Long id;
+        private String name;
+        private Long speciesId;
+        private Long vetCardId;
+        private Long cageId;
+        private Boolean needWarmCage;
 }

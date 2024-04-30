@@ -3,19 +3,14 @@ package nsu.fit.databases.zookeeper.controller;
 import lombok.AllArgsConstructor;
 import nsu.fit.databases.zookeeper.dto.SpeciesDto;
 import nsu.fit.databases.zookeeper.entity.Species;
-import nsu.fit.databases.zookeeper.entity.Species;
 import nsu.fit.databases.zookeeper.exception.ServerException;
 import nsu.fit.databases.zookeeper.service.SpeciesService;
-import nsu.fit.databases.zookeeper.service.SpeciesService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @AllArgsConstructor
 
@@ -50,7 +45,7 @@ public class SpeciesController {
     @ResponseBody
     public SpeciesDto updateSpecies(@PathVariable("id") Long id,
                                   @RequestBody SpeciesDto speciesDto) {
-        if (!Objects.equals(id, speciesDto.getId()))
+        if (!Objects.equals(id, speciesDto.id()))
         {
             throw new ServerException(HttpStatus.BAD_REQUEST, "IDs don't match");
         }

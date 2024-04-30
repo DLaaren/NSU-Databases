@@ -27,10 +27,16 @@ public class AuthConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/*").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/workers").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/*").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/*").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin(form -> form
+                        .loginPage("/api/v1/auth/signin")
+                        .defaultSuccessUrl("/api/v1/animal/all")
+                        .permitAll())
                 .build();
     }
 
