@@ -27,5 +27,5 @@ jobs:
             git pull
             cd ZooKeeper
             ./gradlew clean build -x test
-            docker-compose build
+            # docker-compose build
             docker-compose up -d
