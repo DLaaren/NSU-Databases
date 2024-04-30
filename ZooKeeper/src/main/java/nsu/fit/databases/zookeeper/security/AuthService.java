@@ -1,5 +1,6 @@
 package nsu.fit.databases.zookeeper.security;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import nsu.fit.databases.zookeeper.exception.ServerException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,7 @@ public class AuthService implements UserDetailsService {
         return repository.findByLogin(username);
     }
 
+    @Transactional
     public UserDetails signUp(SignUpDto data) throws ServerException {
         if (repository.findByLogin(data.login()) != null) {
             throw new ServerException(BAD_REQUEST, "Username already exists");
