@@ -27,6 +27,6 @@ jobs:
             ssh-add /root/.ssh/github
             git clone -b dev git@github.com:DLaaren/Databases.git
             cd Databases/ZooKeeper
-            gradle clean build -x test
+            ./gradlew clean build -x test
             docker-compose build
             docker-compose up -d
