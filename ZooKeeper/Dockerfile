@@ -30,13 +30,13 @@ RUN mkdir -p /home/gradle/cache_home
 ENV GRADLE_USER_HOME /home/gradle/cache_home
 COPY build.gradle /home/gradle/java-code/
 WORKDIR /home/gradle/java-code
-RUN gradle clean build -i --stacktrace --build-cache
+RUN gradle clean build -i --stacktrace --build-cache --watch-fs
 
 FROM gradle as builder
 COPY --from=cache /home/gradle/cache_home /home/gradle/.gradle
 COPY . /usr/src/java-code/
 WORKDIR /usr/src/java-code
-RUN gradle bootJar -i --stacktrace --build-cache
+RUN gradle bootJar -i --stacktrace
 
 FROM openjdk:17-alpine
 EXPOSE 8080
