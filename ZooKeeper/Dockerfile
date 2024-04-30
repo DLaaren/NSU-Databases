@@ -36,7 +36,7 @@ FROM gradle as builder
 COPY --from=cache /home/gradle/cache_home /home/gradle/.gradle
 COPY . /usr/src/java-code/
 WORKDIR /usr/src/java-code
-RUN gradle bootJar -i --stacktrace
+RUN gradle bootJar -i --stacktrace --build-cache
 
 FROM openjdk:17-alpine
 EXPOSE 8080
