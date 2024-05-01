@@ -1,4 +1,4 @@
-security:
-  jwt:
-    token:
-      secret-key: "r3qri30w9ti09bv"
+#security:
+#  jwt:
+#    token:
+#      secret-key: "r3qri30w9ti09bv"

@@ -1,6 +1,8 @@
 package nsu.fit.databases.zookeeper.repository;
 
+import jakarta.transaction.Transactional;
 import nsu.fit.databases.zookeeper.entity.Animal;
+import nsu.fit.databases.zookeeper.entity.Species;
 import nsu.fit.databases.zookeeper.entity.Trainer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -51,4 +53,43 @@ public interface AnimalRepository extends JpaRepository<Animal, Long> {
                         "SELECT father_id AS id FROM ancestor) tmp ",
             nativeQuery = true)
     List<Long> findAnimalIdsAncestorsById(@Param("id") Long id);
+
+    // first delete all med and vaccination records
+    // then delete vetcard_vet relation
+    // then delete vetcard
+    // then delete animal_trainer relation
+    // and only then animal
+    @Modifying
+    @Transactional
+    @Query(value = """
+            DELETE FROM medical_history_record
+            WHERE medical_history_record.id IN
+                         (SELECT id FROM medical_history_record AS med
+                         JOIN vet_card AS v ON med.vet_card_id=v.animal_id
+                         WHERE v.animal_id = :id );
+
+            DELETE FROM vaccination_history_record
+            WHERE vaccination_history_record.id IN
+                         (SELECT id FROM vaccination_history_record AS med
+                         JOIN vet_card AS v ON med.vet_card_id=v.animal_id
+                         WHERE v.animal_id = :id );
+
+            DELETE FROM vet_vet_card_relation
+            WHERE vet_vet_card_relation.vet_card_id = :id ;
+
+            DELETE FROM vet_card
+            WHERE vet_card.animal_id = :id ;
+
+            DELETE FROM animal_trainer_relation
+            WHERE animal_trainer_relation.animal_id = :id ;
+
+            DELETE FROM animal
+            WHERE animal.id = :id ;
+            """,
+            nativeQuery = true)
+    void deleteAnimalById(@Param("id") Long id);
+
+    @Query(value = "SELECT species.species_name FROM species " +
+            "WHERE species.id = :#{#animal.species.id} ", nativeQuery = true)
+    String getSpeciesByAnimal(@Param("animal") Animal animal);
 }

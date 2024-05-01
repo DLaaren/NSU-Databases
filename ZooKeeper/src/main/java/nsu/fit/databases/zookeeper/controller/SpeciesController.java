@@ -45,7 +45,7 @@ public class SpeciesController {
     @ResponseBody
     public SpeciesDto updateSpecies(@PathVariable("id") Long id,
                                   @RequestBody SpeciesDto speciesDto) {
-        if (!Objects.equals(id, speciesDto.id()))
+        if (!Objects.equals(id, speciesDto.getId()))
         {
             throw new ServerException(HttpStatus.BAD_REQUEST, "IDs don't match");
         }

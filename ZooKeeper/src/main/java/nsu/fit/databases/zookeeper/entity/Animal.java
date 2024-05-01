@@ -23,7 +23,7 @@ public class Animal {
     @JoinColumn(name = "species_id", nullable = false)
     private Species species;
 
-    @OneToOne(mappedBy = "animal", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "animal")
     @PrimaryKeyJoinColumn
     private VetCard vetCard;
 

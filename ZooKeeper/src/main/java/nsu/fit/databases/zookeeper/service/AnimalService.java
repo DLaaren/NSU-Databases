@@ -2,10 +2,9 @@ package nsu.fit.databases.zookeeper.service;
 
 
 import lombok.AllArgsConstructor;
-import nsu.fit.databases.zookeeper.entity.Animal;
+import nsu.fit.databases.zookeeper.entity.*;
 import nsu.fit.databases.zookeeper.exception.ServerException;
-import nsu.fit.databases.zookeeper.repository.AnimalPagingAndSortingRepository;
-import nsu.fit.databases.zookeeper.repository.AnimalRepository;
+import nsu.fit.databases.zookeeper.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +20,10 @@ public class AnimalService {
 
     private final AnimalPagingAndSortingRepository animalPagingAndSortingRepository;
     private final AnimalRepository animalRepository;
+    private final MedicalHistoryRecordRepository medicalHistoryRecordRepository;
+    private final VaccinationHistoryRecordRepository vaccinationHistoryRecordRepository;
+    private final VetCardRepository vetCardRepository;
+    private final SpeciesRepository speciesRepository;
 
     public List<Animal> getAllAnimals() {
         return animalRepository.findAll();
@@ -65,11 +68,23 @@ public class AnimalService {
     }
 
     public Animal updateAnimal(Animal animal) {
-        nonExistOrThrow(animal);
+//        VetCard vetCard = animal.getVetCard();
+//        List<MedicalHistoryRecord> medicalHistoryRecords = medicalHistoryRecordRepository.findAllByVetCardId(vetCard.getId());
+//        List<VaccinationHistoryRecord> vaccinationHistoryRecords = vaccinationHistoryRecordRepository.findAllByVetCardId(vetCard.getId());
         return animalRepository.save(animal);
     }
 
     public void deleteAnimalById(Long id) {
-        animalRepository.deleteById(id);
+        animalRepository.deleteAnimalById(id);
+    }
+
+    public String getAnimalSpeciesName(Animal animal) {
+        getAnimalByIdOrThrow(animal.getId());
+        return animalRepository.getSpeciesByAnimal(animal);
+    }
+
+    public Species getAnimalSpeciesId(Animal animal) {
+        getAnimalByIdOrThrow(animal.getId());
+        return speciesRepository.getReferenceById(animal.getSpecies().getId());
     }
 }

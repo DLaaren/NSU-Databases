@@ -46,7 +46,7 @@ public class WorkerController {
     @ResponseBody
     public WorkerDto updateWorker(@PathVariable("id") Long id,
                                 @RequestBody WorkerDto workerDto) {
-        if (!Objects.equals(id, workerDto.id()))
+        if (!Objects.equals(id, workerDto.getId()))
         {
             throw new ServerException(HttpStatus.BAD_REQUEST, "IDs don't match");
         }

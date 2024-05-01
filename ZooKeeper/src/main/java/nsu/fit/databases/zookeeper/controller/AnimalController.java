@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import nsu.fit.databases.zookeeper.dto.AnimalDto;
 import nsu.fit.databases.zookeeper.entity.Animal;
 import nsu.fit.databases.zookeeper.exception.ServerException;
+import nsu.fit.databases.zookeeper.repository.AnimalRepository;
 import nsu.fit.databases.zookeeper.service.AnimalService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -59,10 +60,15 @@ public class AnimalController {
     }
 
     private AnimalDto convertToDto(Animal animal) {
-        return animalMapper.map(animal, AnimalDto.class);
+        String speciesName = animalService.getAnimalSpeciesName(animal);
+        AnimalDto animalDto = animalMapper.map(animal, AnimalDto.class);
+        animalDto.setSpeciesName(speciesName);
+        return animalDto;
     }
 
     private Animal convertToEntity(AnimalDto animalDto) {
-        return animalMapper.map(animalDto, Animal.class);
+        Animal animal = animalMapper.map(animalDto, Animal.class);
+        animal.setSpecies(animalService.getAnimalSpeciesId(animal));
+        return animal;
     }
 }

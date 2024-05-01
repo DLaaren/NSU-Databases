@@ -39,7 +39,7 @@ public class VetCardController {
     @ResponseBody
     public VetCardDto updateVetCard(@PathVariable("id") Long id,
                                   @RequestBody VetCardDto vetCardDto) {
-        if (!Objects.equals(id, vetCardDto.id()))
+        if (!Objects.equals(id, vetCardDto.getId()))
         {
             throw new ServerException(HttpStatus.BAD_REQUEST, "IDs don't match");
         }

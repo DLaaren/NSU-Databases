@@ -89,6 +89,7 @@ INSERT INTO vet_card (age, sex, height, weight, need_isolation, is_pregnant, ges
     (5, 'male', 3.74, 4.54, false, null, null, 11),
     (7, 'female', 38.4, 4.56, true, null, null, 12),
     (7, 'male', 3.44, 46.5, false, null, null, 13),
+    (0, 'female', 53.4, 4.45, false, null, null, 14),
     (0, 'female', 53.4, 4.45, false, null, null, 15),
     (3, 'male', 3.47, 74.5, false, null, null, 16),
     (1, 'female', 3.44, 4.5, false, null, null, 17);
