@@ -41,6 +41,13 @@ export default {
           "speciesId": 1,
           "vetCardId": 1,
           "needWarmCage": true
+        },
+        {
+          "id":2,
+          "name": "Janny",
+          "speciesId": 1,
+          "vetCardId": 2,
+          "needWarmCage": true
         }]
     }),
     methods: {
