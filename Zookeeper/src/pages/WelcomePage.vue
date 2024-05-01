@@ -11,6 +11,6 @@
           </div>
         
         </v-responsive>
-      </v-container>
+    </v-container>
 </template>
 
